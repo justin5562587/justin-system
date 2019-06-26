@@ -10,6 +10,15 @@ public class Article {
     private String content;
     private User author;
 
+    public Article(Integer id, Long createTime, Long updateTime, String title, String description, String content) {
+        this.id = id;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.title = title;
+        this.description = description;
+        this.content = content;
+    }
+
     public Article(Integer id, Long createTime, Long updateTime, String title, String description, String content, User author) {
         this.id = id;
         this.createTime = createTime;
