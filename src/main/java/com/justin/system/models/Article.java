@@ -1,5 +1,10 @@
 package com.justin.system.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "article_table")
 public class Article {
 
     private Integer id;
