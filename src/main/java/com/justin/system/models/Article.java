@@ -1,14 +1,19 @@
 package com.justin.system.models;
 
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "article_table")
 public class Article {
 
+    @Id
     private Integer id;
     private Long createTime;
+    @LastModifiedDate
     private Long updateTime;
     private String title;
     private String description;

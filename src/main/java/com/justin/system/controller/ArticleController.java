@@ -1,6 +1,7 @@
 package com.justin.system.controller;
 
-import com.justin.system.models.Article;
+import com.justin.system.entity.request.ReqCreateArticleDTO;
+import com.justin.system.entity.request.ReqUpdateArticleDTO;
 import com.justin.system.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,18 +24,18 @@ public class ArticleController {
     }
 
     @PostMapping("/")
-    public String createArticle(@RequestBody Article article) {
-        return articleService.createArticle(article);
+    public String createArticle(@RequestBody ReqCreateArticleDTO params) {
+        return articleService.createArticle(params);
     }
 
     @PutMapping("/")
-    public String updateArticle(@RequestBody Article article) {
-        return articleService.updateArticle(article);
+    public String updateArticle(@RequestBody ReqUpdateArticleDTO params) {
+        return articleService.updateArticle(params);
     }
 
     @DeleteMapping("/")
     public String deleteArticle(@RequestParam Integer id) {
-        return articleService.deteleArticle(id);
+        return articleService.deleteArticle(id);
     }
 
 }
