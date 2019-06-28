@@ -2,9 +2,12 @@ package com.justin.system.controller;
 
 import com.justin.system.entity.request.ReqCreateArticleDTO;
 import com.justin.system.entity.request.ReqUpdateArticleDTO;
+import com.justin.system.models.Article;
 import com.justin.system.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping(value = "article")
@@ -14,12 +17,12 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/list")
-    public String getArticleList() {
+    public ArrayList<Article> getArticleList() {
         return articleService.getArticleList();
     }
 
     @GetMapping("/detail")
-    public String getArticle(@RequestParam Integer id) {
+    public Article getArticle(@RequestParam Long id) {
         return articleService.getArticleDetail(id);
     }
 
@@ -34,7 +37,7 @@ public class ArticleController {
     }
 
     @DeleteMapping("/")
-    public String deleteArticle(@RequestParam Integer id) {
+    public String deleteArticle(@RequestParam Long id) {
         return articleService.deleteArticle(id);
     }
 

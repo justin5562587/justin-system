@@ -2,25 +2,26 @@ package com.justin.system.models;
 
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "article_table")
 public class Article {
 
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long createTime;
     @LastModifiedDate
     private Long updateTime;
     private String title;
     private String description;
     private String content;
-    private User author;
 
-    public Article(Integer id, Long createTime, Long updateTime, String title, String description, String content) {
+    public Article() {
+    }
+
+    public Article(Long id, Long createTime, Long updateTime, String title, String description, String content) {
         this.id = id;
         this.createTime = createTime;
         this.updateTime = updateTime;
@@ -29,21 +30,11 @@ public class Article {
         this.content = content;
     }
 
-    public Article(Integer id, Long createTime, Long updateTime, String title, String description, String content, User author) {
-        this.id = id;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-        this.title = title;
-        this.description = description;
-        this.content = content;
-        this.author = author;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -85,13 +76,5 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
     }
 }
