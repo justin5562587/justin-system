@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class ArticleService {
@@ -17,12 +18,19 @@ public class ArticleService {
     private ArticleRepository articleRepository;
 
     public ArrayList<Article> getArticleList() {
-        return articleRepository.findAll();
+        Iterable<Article> foundArticles = articleRepository.findAll();
+        ArrayList<Article> articles = new ArrayList<>();
+        for (Article article : foundArticles) {
+            articles.add(article);
+        }
+
+        return articles;
     }
 
     public Article getArticleDetail(Long id) {
         Integer articleId = id.intValue();
-        return articleRepository.findById(articleId);
+        Optional<Article> foundArticle = articleRepository.findById(articleId);
+        return foundArticle.isPresent() ? foundArticle : null;
     }
 
     @Transactional
@@ -59,7 +67,8 @@ public class ArticleService {
 
     public String deleteArticle(Long id) {
         try {
-            articleRepository.deleteById(id);
+            Integer deletedId = id.intValue();
+            articleRepository.deleteById(deletedId);
             return "success";
         } catch (Exception e) {
             return "error";
