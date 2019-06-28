@@ -1,5 +1,6 @@
 package com.justin.system.service;
 
+import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateArticleDTO;
 import com.justin.system.entity.request.ReqUpdateArticleDTO;
 import com.justin.system.models.Article;
@@ -27,10 +28,11 @@ public class ArticleService {
         return articles;
     }
 
-    public Article getArticleDetail(Long id) {
-        Integer articleId = id.intValue();
-        Optional<Article> foundArticle = articleRepository.findById(articleId);
-        return foundArticle.isPresent() ? foundArticle : null;
+    public ResponseWrapper getArticleDetail(Long id) {
+        Optional<Article> foundArticle = articleRepository.findById(id);
+        return foundArticle.isPresent() ?
+                ResponseWrapper.successRender(foundArticle) :
+                ResponseWrapper.failRender("error");
     }
 
     @Transactional
@@ -67,8 +69,7 @@ public class ArticleService {
 
     public String deleteArticle(Long id) {
         try {
-            Integer deletedId = id.intValue();
-            articleRepository.deleteById(deletedId);
+            articleRepository.deleteById(id);
             return "success";
         } catch (Exception e) {
             return "error";

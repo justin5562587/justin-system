@@ -7,6 +7,24 @@ public class ResponseWrapper {
     private String message;
     private Object data;
 
+    public ResponseWrapper() {
+    }
+
+    public ResponseWrapper(String status, Integer code, String message, Object data) {
+        this.status = status;
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+
+    public static ResponseWrapper successRender(Object data) {
+        return new ResponseWrapper("success", 200, "successInfo", data);
+    }
+
+    public static ResponseWrapper failRender(Object data) {
+        return new ResponseWrapper("fail", 500, "failInfo", data);
+    }
+
     public String getStatus() {
         return status;
     }
@@ -37,5 +55,9 @@ public class ResponseWrapper {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public enum ResponseStatus {
+        SUCCESS, FAIL;
     }
 }

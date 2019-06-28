@@ -1,5 +1,6 @@
 package com.justin.system.controller;
 
+import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateArticleDTO;
 import com.justin.system.entity.request.ReqUpdateArticleDTO;
 import com.justin.system.models.Article;
@@ -22,7 +23,7 @@ public class ArticleController {
     }
 
     @GetMapping("/detail")
-    public Article getArticle(@RequestParam Long id) {
+    public ResponseWrapper getArticle(@RequestParam Long id) {
         return articleService.getArticleDetail(id);
     }
 
