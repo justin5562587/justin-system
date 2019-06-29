@@ -1,6 +1,6 @@
 package com.justin.system.models;
 
-import com.justin.system.entity.enums.GroupEnum;
+import com.justin.system.entity.enums.UserTypeEnum;
 
 public class User {
 
@@ -9,9 +9,9 @@ public class User {
     private Long updateTime;
     private String username;
     private String password;
-    private GroupEnum group;
+    private UserTypeEnum group;
 
-    public User(String username, String password, Integer id, Long createTime, Long updateTime, GroupEnum group) {
+    public User(String username, String password, Integer id, Long createTime, Long updateTime, UserTypeEnum group) {
         this.username = username;
         this.password = password;
         this.id = id;
@@ -60,11 +60,11 @@ public class User {
         this.updateTime = updateTime;
     }
 
-    public GroupEnum getGroup() {
+    public UserTypeEnum getGroup() {
         return group;
     }
 
-    public void setGroup(GroupEnum group) {
+    public void setGroup(UserTypeEnum group) {
         this.group = group;
     }
 }

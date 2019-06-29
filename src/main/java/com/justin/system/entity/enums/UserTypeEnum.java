@@ -1,5 +1,5 @@
 package com.justin.system.entity.enums;
 
-public enum GroupEnum {
+public enum UserTypeEnum {
     ADMIN, OPERATOR, VISITOR
 }
