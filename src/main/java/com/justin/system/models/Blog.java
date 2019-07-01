@@ -8,6 +8,7 @@ public class Blog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT NOT NULL AUTO_INCREMENT")
     private Long id;
     private Long createTime;
     private Long updateTime;
@@ -15,21 +16,21 @@ public class Blog {
     private String content;
     private String description;
     private String imgUrl;
-    private User author;
-    private String labelType;
+    private String labelName;
+    private Long userId;
 
     public Blog() {
     }
 
-    public Blog(Long createTime, Long updateTime, String title, String content, String description, String imgUrl, User author, String labelType) {
+    public Blog(Long createTime, Long updateTime, String title, String content, String description, String imgUrl, String labelName, Long userId) {
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.title = title;
         this.content = content;
         this.description = description;
         this.imgUrl = imgUrl;
-        this.author = author;
-        this.labelType = labelType;
+        this.labelName = labelName;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -88,19 +89,19 @@ public class Blog {
         this.imgUrl = imgUrl;
     }
 
-    public User getAuthor() {
-        return author;
+    public String getLabelName() {
+        return labelName;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setLabelName(String labelName) {
+        this.labelName = labelName;
     }
 
-    public String getLabelType() {
-        return labelType;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setLabelType(String labelType) {
-        this.labelType = labelType;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

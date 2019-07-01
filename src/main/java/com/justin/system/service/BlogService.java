@@ -18,7 +18,8 @@ public class BlogService {
     private BlogRepository blogRepository;
 
     public ResponseWrapper getBlogList() {
-        return ResponseWrapper.successRender("blog list");
+        Iterable<Blog> foundBlogs = blogRepository.findAll();
+        return ResponseWrapper.successRender(foundBlogs);
     }
 
     public ResponseWrapper getBlogDetail(Long id) {
@@ -31,17 +32,21 @@ public class BlogService {
     @Transactional
     public ResponseWrapper createBlog(ReqCreateBlogDTO params) {
         try {
-            Blog createdBlog = new Blog();
-            createdBlog.setTitle(params.getTitle());
-            createdBlog.setContent(params.getContent());
-            createdBlog.setDescription(params.getDescription());
+            Blog newBlog = new Blog();
+            newBlog.setTitle(params.getTitle());
+            newBlog.setContent(params.getContent());
+            newBlog.setDescription(params.getDescription());
             Long currentTime = System.currentTimeMillis();
-            createdBlog.setCreateTime(currentTime);
-            createdBlog.setUpdateTime(currentTime);
-            createdBlog.setLabelType(params.getLabelTypeString());
-            blogRepository.save(createdBlog);
+            newBlog.setCreateTime(currentTime);
+            newBlog.setUpdateTime(currentTime);
+            newBlog.setLabelName(params.getLabelName());
 
-            return ResponseWrapper.successRender("create blog successfully");
+            // need userId
+            newBlog.setUserId(new Long(1));
+
+            Blog savedBlog = blogRepository.save(newBlog);
+
+            return ResponseWrapper.successRender(savedBlog);
         } catch (Exception e) {
             return ResponseWrapper.failRender(e);
         }

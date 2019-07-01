@@ -6,7 +6,7 @@ public class ReqCreateBlogDTO {
     private String content;
     private String description;
     private String imgUrl;
-    private String labelTypeString;
+    private String labelName;
 
     public String getTitle() {
         return title;
@@ -40,11 +40,11 @@ public class ReqCreateBlogDTO {
         this.imgUrl = imgUrl;
     }
 
-    public String getLabelTypeString() {
-        return labelTypeString;
+    public String getLabelName() {
+        return labelName;
     }
 
-    public void setLabelTypeString(String labelTypeString) {
-        this.labelTypeString = labelTypeString;
+    public void setLabelName(String labelName) {
+        this.labelName = labelName;
     }
 }

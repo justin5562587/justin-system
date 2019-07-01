@@ -10,6 +10,7 @@ public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT NOT NULL AUTO_INCREMENT")
     private Long id;
     private Long createTime;
     @LastModifiedDate

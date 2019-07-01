@@ -5,6 +5,7 @@ import com.justin.system.entity.request.ReqCreateUserDTO;
 import com.justin.system.models.User;
 import com.justin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,17 +32,21 @@ public class UserService {
     @Transactional
     public ResponseWrapper createUser(ReqCreateUserDTO params) {
         try {
-            User createdUser = new User();
-            createdUser.setUsername(params.getUsername());
-            createdUser.setPassword(params.getPassword());
-            createdUser.setGroupName(params.getGroupName());
-            createdUser.setEmail(params.getEmail());
-            Long currentTime = System.currentTimeMillis();
-            createdUser.setCreateTime(currentTime);
-            createdUser.setUpdateTime(currentTime);
-            userRepository.save(createdUser);
+            User newUser = new User();
+            // encode password
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String bCryptPassword = bCryptPasswordEncoder.encode(params.getPassword());
+            newUser.setPassword(bCryptPassword);
 
-            return ResponseWrapper.successRender("create user successfully");
+            newUser.setUsername(params.getUsername());
+            newUser.setGroupName(params.getGroupName());
+            newUser.setEmail(params.getEmail());
+            Long currentTime = System.currentTimeMillis();
+            newUser.setCreateTime(currentTime);
+            newUser.setUpdateTime(currentTime);
+            User savedUser = userRepository.save(newUser);
+
+            return ResponseWrapper.successRender(savedUser);
         } catch (Exception e) {
             return ResponseWrapper.failRender("error");
         }

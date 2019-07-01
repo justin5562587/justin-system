@@ -23,7 +23,7 @@ public class UserController {
         return userService.getUserList();
     }
 
-    @PostMapping(value="/register")
+    @PostMapping("/")
     public ResponseWrapper createUser(@RequestBody ReqCreateUserDTO params) {
         return userService.createUser(params);
     }
