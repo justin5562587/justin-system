@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -18,14 +17,10 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public ArrayList<Article> getArticleList() {
+    public ResponseWrapper getArticleList() {
         Iterable<Article> foundArticles = articleRepository.findAll();
-        ArrayList<Article> articles = new ArrayList<>();
-        for (Article article : foundArticles) {
-            articles.add(article);
-        }
 
-        return articles;
+        return ResponseWrapper.successRender(foundArticles);
     }
 
     public ResponseWrapper getArticleDetail(Long id) {
@@ -36,7 +31,7 @@ public class ArticleService {
     }
 
     @Transactional
-    public String createArticle(ReqCreateArticleDTO params) {
+    public ResponseWrapper createArticle(ReqCreateArticleDTO params) {
         try {
             Article createdArticle = new Article();
             createdArticle.setTitle(params.getTitle());
@@ -46,13 +41,15 @@ public class ArticleService {
             createdArticle.setCreateTime(currentTime);
             createdArticle.setUpdateTime(currentTime);
             articleRepository.save(createdArticle);
-            return "success";
+
+            return ResponseWrapper.successRender("successfully create article");
         } catch (Exception e) {
-            return "error";
+            return ResponseWrapper.failRender("create article fail");
         }
     }
 
-    public String updateArticle(ReqUpdateArticleDTO params) {
+    @Transactional
+    public ResponseWrapper updateArticle(ReqUpdateArticleDTO params) {
         try {
             Article updatedArticle = new Article();
             updatedArticle.setTitle(params.getTitle());
@@ -61,18 +58,21 @@ public class ArticleService {
             updatedArticle.setId(params.getId());
             updatedArticle.setUpdateTime(System.currentTimeMillis());
             articleRepository.save(updatedArticle);
-            return "success";
+
+            return ResponseWrapper.successRender("successfully update article");
         } catch (Exception e) {
-            return "error";
+            return ResponseWrapper.failRender("update article fail");
         }
     }
 
-    public String deleteArticle(Long id) {
+    @Transactional
+    public ResponseWrapper deleteArticle(Long id) {
         try {
             articleRepository.deleteById(id);
-            return "success";
+
+            return ResponseWrapper.successRender("delete article successfully");
         } catch (Exception e) {
-            return "error";
+            return ResponseWrapper.failRender("delete article fail");
         }
     }
 }

@@ -18,7 +18,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/list")
-    public ArrayList<Article> getArticleList() {
+    public ResponseWrapper getArticleList() {
         return articleService.getArticleList();
     }
 
@@ -28,17 +28,17 @@ public class ArticleController {
     }
 
     @PostMapping("/")
-    public String createArticle(@RequestBody ReqCreateArticleDTO params) {
+    public ResponseWrapper createArticle(@RequestBody ReqCreateArticleDTO params) {
         return articleService.createArticle(params);
     }
 
     @PutMapping("/")
-    public String updateArticle(@RequestBody ReqUpdateArticleDTO params) {
+    public ResponseWrapper updateArticle(@RequestBody ReqUpdateArticleDTO params) {
         return articleService.updateArticle(params);
     }
 
     @DeleteMapping("/")
-    public String deleteArticle(@RequestParam Long id) {
+    public ResponseWrapper deleteArticle(@RequestParam Long id) {
         return articleService.deleteArticle(id);
     }
 

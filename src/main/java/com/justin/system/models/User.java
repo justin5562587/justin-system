@@ -1,46 +1,27 @@
 package com.justin.system.models;
 
-import com.justin.system.entity.enums.UserTypeEnum;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "user_table")
 public class User {
 
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT NOT NULL AUTO_INCREMENT")
+    private Long id;
     private Long createTime;
     private Long updateTime;
     private String username;
     private String password;
-    private UserTypeEnum group;
+    private String email;
+    private String groupName;
 
-    public User(String username, String password, Integer id, Long createTime, Long updateTime, UserTypeEnum group) {
-        this.username = username;
-        this.password = password;
-        this.id = id;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-        this.group = group;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -60,11 +41,35 @@ public class User {
         this.updateTime = updateTime;
     }
 
-    public UserTypeEnum getGroup() {
-        return group;
+    public String getUsername() {
+        return username;
     }
 
-    public void setGroup(UserTypeEnum group) {
-        this.group = group;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

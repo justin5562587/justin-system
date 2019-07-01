@@ -1,7 +1,6 @@
 package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
-import com.justin.system.entity.enums.LabelTypeEnum;
 import com.justin.system.entity.request.ReqCreateBlogDTO;
 import com.justin.system.entity.request.ReqUpdateBlogDTO;
 import com.justin.system.models.Blog;

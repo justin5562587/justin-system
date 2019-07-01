@@ -1,33 +1,40 @@
 package com.justin.system.controller;
 
+import com.justin.system.entity.basic.ResponseWrapper;
+import com.justin.system.entity.request.ReqCreateUserDTO;
+import com.justin.system.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "user")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/detail")
-    public String getUser(@RequestParam Long id) {
-        return "get user successfully";
+    public ResponseWrapper getUser(@RequestParam Long id) {
+        return userService.getUserDetail(id);
     }
 
     @GetMapping("/list")
-    public String getUserList() {
-        return "get user list successfully";
+    public ResponseWrapper getUserList() {
+        return userService.getUserList();
     }
 
-    @PostMapping("/")
-    public String createUser() {
-        return "create user successfully";
+    @PostMapping(value="/register")
+    public ResponseWrapper createUser(@RequestBody ReqCreateUserDTO params) {
+        return userService.createUser(params);
     }
 
     @PutMapping("/")
-    public String updateUser() {
-        return "update user successfully";
+    public ResponseWrapper updateUser() {
+        return userService.updateUser();
     }
 
     @DeleteMapping("/")
-    public String deleteUser(@RequestParam Long id) {
-        return "delete user successfully";
+    public ResponseWrapper deleteUser(@RequestParam Long id) {
+        return userService.deleteUser(id);
     }
 }
