@@ -17,12 +17,12 @@ public class ResponseWrapper {
         this.data = data;
     }
 
-    public static ResponseWrapper successRender(Object data) {
-        return new ResponseWrapper("success", 200, "successInfo", data);
+    public static ResponseWrapper successRender(Object message) {
+        return new ResponseWrapper("success", 200, "successInfo", message);
     }
 
-    public static ResponseWrapper failRender(Object data) {
-        return new ResponseWrapper("fail", 500, "failInfo", data);
+    public static ResponseWrapper failRender(Object message) {
+        return new ResponseWrapper("fail", 500, "failInfo", message);
     }
 
     public String getStatus() {

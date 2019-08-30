@@ -1,6 +1,7 @@
 package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
+import com.justin.system.entity.enums.ErrorTypeEnum;
 import com.justin.system.entity.request.ReqCreateArticleDTO;
 import com.justin.system.entity.request.ReqUpdateArticleDTO;
 import com.justin.system.models.Article;
@@ -19,7 +20,6 @@ public class ArticleService {
 
     public ResponseWrapper getArticleList() {
         Iterable<Article> foundArticles = articleRepository.findAll();
-
         return ResponseWrapper.successRender(foundArticles);
     }
 
@@ -27,24 +27,28 @@ public class ArticleService {
         Optional<Article> foundArticle = articleRepository.findById(id);
         return foundArticle.isPresent() ?
                 ResponseWrapper.successRender(foundArticle) :
-                ResponseWrapper.failRender("error");
+                ResponseWrapper.failRender(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
     }
 
     @Transactional
     public ResponseWrapper createArticle(ReqCreateArticleDTO params) {
         try {
-            Article createdArticle = new Article();
-            createdArticle.setTitle(params.getTitle());
-            createdArticle.setContent(params.getContent());
-            createdArticle.setDescription(params.getDescription());
+            Article article = new Article();
+            article.setTitle(params.getTitle());
+            article.setContent(params.getContent());
+            article.setDescription(params.getDescription());
+            String label = params.getLabel();
+            if (label != null) {
+                article.setLabel(params.getLabel());
+            }
             Long currentTime = System.currentTimeMillis();
-            createdArticle.setCreateTime(currentTime);
-            createdArticle.setUpdateTime(currentTime);
-            articleRepository.save(createdArticle);
+            article.setCreateTime(currentTime);
+            article.setUpdateTime(currentTime);
+            articleRepository.save(article);
 
             return ResponseWrapper.successRender("successfully create article");
         } catch (Exception e) {
-            return ResponseWrapper.failRender("create article fail");
+            return ResponseWrapper.failRender(ErrorTypeEnum.CREATE_FAILURE.getDescription());
         }
     }
 
@@ -61,7 +65,7 @@ public class ArticleService {
 
             return ResponseWrapper.successRender("successfully update article");
         } catch (Exception e) {
-            return ResponseWrapper.failRender("update article fail");
+            return ResponseWrapper.failRender(ErrorTypeEnum.UPDATE_FAILURE.getDescription());
         }
     }
 
@@ -71,8 +75,8 @@ public class ArticleService {
             articleRepository.deleteById(id);
 
             return ResponseWrapper.successRender("delete article successfully");
-        } catch (Exception e) {
-            return ResponseWrapper.failRender("delete article fail");
+        } catch (IllegalArgumentException e) {
+            return ResponseWrapper.failRender(ErrorTypeEnum.DELETE_FAILURE.getDescription());
         }
     }
 }

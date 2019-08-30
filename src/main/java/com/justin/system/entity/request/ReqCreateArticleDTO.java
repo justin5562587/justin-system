@@ -5,6 +5,7 @@ public class ReqCreateArticleDTO {
     private String title;
     private String description;
     private String content;
+    private String label;
 
     public String getTitle() {
         return title;
@@ -28,5 +29,13 @@ public class ReqCreateArticleDTO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getLabel() {
+        return this.label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

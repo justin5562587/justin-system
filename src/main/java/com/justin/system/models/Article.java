@@ -1,5 +1,6 @@
 package com.justin.system.models;
 
+import com.justin.system.entity.enums.LabelTypeEnum;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
@@ -18,17 +19,26 @@ public class Article {
     private String title;
     private String description;
     private String content;
+    private String label;
+    private Integer readNum;
+    private Integer starNum;
 
     public Article() {
+        this.starNum = 0;
+        this.readNum = 0;
+        this.label = LabelTypeEnum.OTHER.toString();
     }
 
-    public Article(Long id, Long createTime, Long updateTime, String title, String description, String content) {
+    public Article(Long id, Long createTime, Long updateTime, String title, String description, String content, String label) {
         this.id = id;
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.title = title;
         this.description = description;
         this.content = content;
+        this.label = label;
+        this.starNum = 0;
+        this.readNum = 0;
     }
 
     public Long getId() {
@@ -77,5 +87,29 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public Integer getReadNum() {
+        return readNum;
+    }
+
+    public void setReadNum(Integer readNum) {
+        this.readNum = readNum;
+    }
+
+    public Integer getStarNum() {
+        return starNum;
+    }
+
+    public void setStarNum(Integer starNum) {
+        this.starNum = starNum;
     }
 }

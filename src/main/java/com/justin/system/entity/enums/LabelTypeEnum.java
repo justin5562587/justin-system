@@ -6,5 +6,6 @@ public enum LabelTypeEnum {
     PAINTING,
     JAPANSES,
     ENGILISH,
-    GMAE
+    GMAE,
+    OTHER,
 }
