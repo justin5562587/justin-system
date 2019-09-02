@@ -1,7 +1,9 @@
 package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
+import com.justin.system.entity.enums.ErrorTypeEnum;
 import com.justin.system.entity.request.ReqCreateUserDTO;
+import com.justin.system.entity.request.ReqUpdateUserDTO;
 import com.justin.system.models.User;
 import com.justin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ public class UserService {
         Optional<User> foundUser = userRepository.findById(id);
         return foundUser.isPresent() ?
                 ResponseWrapper.successRender(foundUser) :
-                ResponseWrapper.failRender("error");
+                ResponseWrapper.failRender(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
     }
 
     @Transactional
@@ -38,26 +40,40 @@ public class UserService {
             String bCryptPassword = bCryptPasswordEncoder.encode(params.getPassword());
             newUser.setPassword(bCryptPassword);
 
-            newUser.setUsername(params.getUsername());
-            newUser.setGroupName(params.getGroupName());
-            newUser.setEmail(params.getEmail());
+            // handle time
             Long currentTime = System.currentTimeMillis();
             newUser.setCreateTime(currentTime);
             newUser.setUpdateTime(currentTime);
+
+            newUser.setUsername(params.getUsername());
+            newUser.setUserType(params.getUserType());
+            newUser.setEmail(params.getEmail());
+
             User savedUser = userRepository.save(newUser);
 
             return ResponseWrapper.successRender(savedUser);
         } catch (Exception e) {
-            return ResponseWrapper.failRender("error");
+            return ResponseWrapper.failRender(ErrorTypeEnum.CREATE_FAILURE.getDescription());
         }
     }
 
     @Transactional
-    public ResponseWrapper updateUser() {
+    public ResponseWrapper updateUser(ReqUpdateUserDTO params) {
         try {
-            return ResponseWrapper.successRender("create user successfully");
+            Optional<User> optionalUser = userRepository.findById(params.getId());
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                user.setUserType(params.getUserType());
+                user.setUsername(params.getUsername());
+                user.setEmail(params.getEmail());
+                userRepository.save(user);
+
+                return ResponseWrapper.successRender("Update user successfully");
+            } else {
+                return ResponseWrapper.failRender(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
+            }
         } catch (Exception e) {
-            return ResponseWrapper.failRender("error");
+            return ResponseWrapper.failRender(ErrorTypeEnum.UPDATE_FAILURE.getDescription());
         }
     }
 
@@ -67,7 +83,7 @@ public class UserService {
             userRepository.deleteById(id);
             return ResponseWrapper.successRender("delete user successfully");
         } catch (Exception e) {
-            return ResponseWrapper.failRender("error");
+            return ResponseWrapper.failRender(ErrorTypeEnum.DELETE_FAILURE.getDescription());
         }
     }
 

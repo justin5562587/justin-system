@@ -44,7 +44,10 @@ public class ArticleService {
             Long currentTime = System.currentTimeMillis();
             article.setCreateTime(currentTime);
             article.setUpdateTime(currentTime);
-            articleRepository.save(article);
+
+            System.out.println(article.getClass().getName());
+
+//            articleRepository.save(article);
 
             return ResponseWrapper.successRender("successfully create article");
         } catch (Exception e) {

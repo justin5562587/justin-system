@@ -15,7 +15,7 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String groupName;
+    private String userType;
 
     public Long getId() {
         return id;
@@ -65,11 +65,11 @@ public class User {
         this.email = email;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public String getUserType() {
+        return userType;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }
