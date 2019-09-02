@@ -22,7 +22,7 @@ public class ArticleController {
         return articleService.getArticleList();
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/")
     public ResponseWrapper getArticle(@RequestParam Long id) {
         return articleService.getArticleDetail(id);
     }

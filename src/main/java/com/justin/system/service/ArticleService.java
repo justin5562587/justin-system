@@ -58,15 +58,18 @@ public class ArticleService {
     @Transactional
     public ResponseWrapper updateArticle(ReqUpdateArticleDTO params) {
         try {
-            Article updatedArticle = new Article();
-            updatedArticle.setTitle(params.getTitle());
-            updatedArticle.setContent(params.getContent());
-            updatedArticle.setDescription(params.getDescription());
-            updatedArticle.setId(params.getId());
-            updatedArticle.setUpdateTime(System.currentTimeMillis());
-            articleRepository.save(updatedArticle);
+            Optional<Article> optionalArticle = articleRepository.findById(params.getId());
+            if (optionalArticle.isPresent()) {
+                Article article = optionalArticle.get();
+                article.setTitle(params.getTitle());
+                article.setDescription(params.getDescription());
+                article.setContent(params.getContent());
 
-            return ResponseWrapper.successRender("successfully update article");
+                articleRepository.save(article);
+                return ResponseWrapper.successRender(article);
+            } else {
+                return ResponseWrapper.failRender(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
+            }
         } catch (Exception e) {
             return ResponseWrapper.failRender(ErrorTypeEnum.UPDATE_FAILURE.getDescription());
         }

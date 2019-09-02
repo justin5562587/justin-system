@@ -14,14 +14,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/detail")
-    public ResponseWrapper getUser(@RequestParam Long id) {
-        return userService.getUserDetail(id);
-    }
-
     @GetMapping("/list")
     public ResponseWrapper getUserList() {
         return userService.getUserList();
+    }
+
+    @GetMapping("/")
+    public ResponseWrapper getUser(@RequestParam Long id) {
+        return userService.getUserDetail(id);
     }
 
     @PostMapping("/")

@@ -2,7 +2,6 @@ package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateBlogDTO;
-import com.justin.system.entity.request.ReqUpdateBlogDTO;
 import com.justin.system.models.Blog;
 import com.justin.system.repository.BlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +49,6 @@ public class BlogService {
         } catch (Exception e) {
             return ResponseWrapper.failRender(e);
         }
-    }
-
-    @Transactional
-    public ResponseWrapper updateBlog(ReqUpdateBlogDTO params) {
-        System.out.println(params);
-        return ResponseWrapper.successRender("update blog successfully");
     }
 
     @Transactional
