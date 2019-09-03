@@ -6,7 +6,8 @@ import com.justin.system.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController(value = "/blog")
+@RestController
+@RequestMapping(value = "blog")
 public class BlogController {
 
     @Autowired
