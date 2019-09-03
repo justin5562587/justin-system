@@ -8,10 +8,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileService {
 
     public ResponseWrapper saveFile(MultipartFile file) {
-        return ResponseWrapper.successRender(file.getOriginalFilename());
+        return ResponseWrapper.success(file.getOriginalFilename());
     }
 
     public ResponseWrapper getFileList() {
-        return ResponseWrapper.successRender("get file successfully");
+        return ResponseWrapper.success("get file successfully");
     }
 }

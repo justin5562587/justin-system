@@ -21,20 +21,37 @@ public class UserService {
 
     public ResponseWrapper getUserList() {
         Iterable<User> foundUsers = userRepository.findAll();
-        return ResponseWrapper.successRender(foundUsers);
+        return ResponseWrapper.success(foundUsers);
     }
 
     public ResponseWrapper getUserDetail(Long id) {
         Optional<User> foundUser = userRepository.findById(id);
         return foundUser.isPresent() ?
-                ResponseWrapper.successRender(foundUser) :
-                ResponseWrapper.failRender(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
+                ResponseWrapper.success(foundUser) :
+                ResponseWrapper.fail(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
     }
 
     @Transactional
     public ResponseWrapper createUser(ReqCreateUserDTO params) {
         try {
             User newUser = new User();
+
+            Iterable<User> userIterable = userRepository.findAll();
+
+            // handle email && username
+            String email = params.getEmail();
+            String username = params.getUsername();
+            for (User user : userIterable) {
+                if (user.getEmail().equals(email)) {
+                    return ResponseWrapper.fail("Existed Email");
+                }
+                if (user.getUsername().equals(username)) {
+                    return ResponseWrapper.fail("Existed Username");
+                }
+            }
+            newUser.setEmail(email);
+            newUser.setUsername(username);
+
             // encode password
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             String bCryptPassword = bCryptPasswordEncoder.encode(params.getPassword());
@@ -45,15 +62,13 @@ public class UserService {
             newUser.setCreateTime(currentTime);
             newUser.setUpdateTime(currentTime);
 
-            newUser.setUsername(params.getUsername());
             newUser.setUserType(params.getUserType());
-            newUser.setEmail(params.getEmail());
 
             User savedUser = userRepository.save(newUser);
 
-            return ResponseWrapper.successRender(savedUser);
+            return ResponseWrapper.success(savedUser);
         } catch (Exception e) {
-            return ResponseWrapper.failRender(ErrorTypeEnum.CREATE_FAILURE.getDescription());
+            return ResponseWrapper.fail(ErrorTypeEnum.CREATE_FAILURE.getDescription());
         }
     }
 
@@ -68,12 +83,12 @@ public class UserService {
                 user.setEmail(params.getEmail());
                 userRepository.save(user);
 
-                return ResponseWrapper.successRender("Update user successfully");
+                return ResponseWrapper.success("Update user successfully");
             } else {
-                return ResponseWrapper.failRender(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
+                return ResponseWrapper.fail(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
             }
         } catch (Exception e) {
-            return ResponseWrapper.failRender(ErrorTypeEnum.UPDATE_FAILURE.getDescription());
+            return ResponseWrapper.fail(ErrorTypeEnum.UPDATE_FAILURE.getDescription());
         }
     }
 
@@ -81,9 +96,9 @@ public class UserService {
     public ResponseWrapper deleteUser(Long id) {
         try {
             userRepository.deleteById(id);
-            return ResponseWrapper.successRender("delete user successfully");
+            return ResponseWrapper.success("delete user successfully");
         } catch (Exception e) {
-            return ResponseWrapper.failRender(ErrorTypeEnum.DELETE_FAILURE.getDescription());
+            return ResponseWrapper.fail(ErrorTypeEnum.DELETE_FAILURE.getDescription());
         }
     }
 

@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     public ResponseWrapper login() {
-        return ResponseWrapper.successRender("login successfully");
+        return ResponseWrapper.success("login successfully");
     }
 
     public ResponseWrapper logout() {
-        return ResponseWrapper.successRender("logout successfully");
+        return ResponseWrapper.success("logout successfully");
     }
 
     public ResponseWrapper contact(ReqContactDTO params) {
-        return ResponseWrapper.successRender(params);
+        return ResponseWrapper.success(params);
     }
 }

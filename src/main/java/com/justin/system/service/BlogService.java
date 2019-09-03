@@ -18,14 +18,14 @@ public class BlogService {
 
     public ResponseWrapper getBlogList() {
         Iterable<Blog> foundBlogs = blogRepository.findAll();
-        return ResponseWrapper.successRender(foundBlogs);
+        return ResponseWrapper.success(foundBlogs);
     }
 
     public ResponseWrapper getBlogDetail(Long id) {
         Optional<Blog> foundBlog = blogRepository.findById(id);
         return foundBlog.isPresent() ?
-                ResponseWrapper.successRender(foundBlog) :
-                ResponseWrapper.failRender("error");
+                ResponseWrapper.success(foundBlog) :
+                ResponseWrapper.fail("error");
     }
 
     @Transactional
@@ -45,9 +45,9 @@ public class BlogService {
 
             Blog savedBlog = blogRepository.save(newBlog);
 
-            return ResponseWrapper.successRender(savedBlog);
+            return ResponseWrapper.success(savedBlog);
         } catch (Exception e) {
-            return ResponseWrapper.failRender(e);
+            return ResponseWrapper.fail(e);
         }
     }
 
@@ -55,9 +55,9 @@ public class BlogService {
     public ResponseWrapper deleteBlog(Long id) {
         try {
             blogRepository.deleteById(id);
-            return ResponseWrapper.successRender("delete blog successfully");
+            return ResponseWrapper.success("delete blog successfully");
         } catch (Exception e) {
-            return ResponseWrapper.failRender(e);
+            return ResponseWrapper.fail(e);
         }
     }
 }

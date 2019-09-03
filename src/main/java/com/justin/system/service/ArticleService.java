@@ -20,14 +20,14 @@ public class ArticleService {
 
     public ResponseWrapper getArticleList() {
         Iterable<Article> foundArticles = articleRepository.findAll();
-        return ResponseWrapper.successRender(foundArticles);
+        return ResponseWrapper.success(foundArticles);
     }
 
     public ResponseWrapper getArticleDetail(Long id) {
         Optional<Article> foundArticle = articleRepository.findById(id);
         return foundArticle.isPresent() ?
-                ResponseWrapper.successRender(foundArticle) :
-                ResponseWrapper.failRender(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
+                ResponseWrapper.success(foundArticle) :
+                ResponseWrapper.fail(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
     }
 
     @Transactional
@@ -49,9 +49,9 @@ public class ArticleService {
 
 //            articleRepository.save(article);
 
-            return ResponseWrapper.successRender("successfully create article");
+            return ResponseWrapper.success("successfully create article");
         } catch (Exception e) {
-            return ResponseWrapper.failRender(ErrorTypeEnum.CREATE_FAILURE.getDescription());
+            return ResponseWrapper.fail(ErrorTypeEnum.CREATE_FAILURE.getDescription());
         }
     }
 
@@ -66,12 +66,12 @@ public class ArticleService {
                 article.setContent(params.getContent());
 
                 articleRepository.save(article);
-                return ResponseWrapper.successRender(article);
+                return ResponseWrapper.success(article);
             } else {
-                return ResponseWrapper.failRender(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
+                return ResponseWrapper.fail(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
             }
         } catch (Exception e) {
-            return ResponseWrapper.failRender(ErrorTypeEnum.UPDATE_FAILURE.getDescription());
+            return ResponseWrapper.fail(ErrorTypeEnum.UPDATE_FAILURE.getDescription());
         }
     }
 
@@ -80,9 +80,9 @@ public class ArticleService {
         try {
             articleRepository.deleteById(id);
 
-            return ResponseWrapper.successRender("delete article successfully");
+            return ResponseWrapper.success("delete article successfully");
         } catch (IllegalArgumentException e) {
-            return ResponseWrapper.failRender(ErrorTypeEnum.DELETE_FAILURE.getDescription());
+            return ResponseWrapper.fail(ErrorTypeEnum.DELETE_FAILURE.getDescription());
         }
     }
 }
