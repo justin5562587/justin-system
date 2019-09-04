@@ -18,19 +18,19 @@ public class BlogController {
         return blogService.getBlogList();
     }
 
-    @GetMapping("/")
-    public ResponseWrapper getBlogDetail(@RequestParam Long id) {
-        return blogService.getBlogDetail(id);
-    }
-
-    @PostMapping("/")
-    public ResponseWrapper createBlog(@RequestBody ReqCreateBlogDTO params) {
-        return blogService.createBlog(params);
-    }
-
-    @DeleteMapping("/")
-    public ResponseWrapper deleteBlog(@RequestParam Long id) {
-        return blogService.deleteBlog(id);
-    }
+//    @GetMapping("/")
+//    public ResponseWrapper getBlogDetail(@RequestParam Long id) {
+//        return blogService.getBlogDetail(id);
+//    }
+//
+//    @PostMapping("/")
+//    public ResponseWrapper createBlog(@RequestBody ReqCreateBlogDTO params) {
+//        return blogService.createBlog(params);
+//    }
+//
+//    @DeleteMapping("/")
+//    public ResponseWrapper deleteBlog(@RequestParam Long id) {
+//        return blogService.deleteBlog(id);
+//    }
 
 }
