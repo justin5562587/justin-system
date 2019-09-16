@@ -19,6 +19,6 @@ public interface BlogMapper {
     void deleteBLogById(Long id);
 
     @Insert("INSERT INTO blog_table (user_id, title, content, description, img_url, label_name, create_time, update_time) " +
-            "VALUES(#{id} #{title}, #{content} #{description} #{imgUrl} #{labelName} #{createTime} #{updateTime})")
+            "VALUES(10, #{blog.title}, #{blog.content}, #{blog.description}, #{blog.imgUrl}, #{blog.labelName}, #{blog.createTime}, #{blog.updateTime});")
     Blog createBlog(Blog blog);
 }

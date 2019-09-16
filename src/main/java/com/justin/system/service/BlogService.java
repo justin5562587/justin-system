@@ -42,6 +42,7 @@ public class BlogService {
             newBlog.setCreateTime(currentTime);
             newBlog.setUpdateTime(currentTime);
 
+            System.out.println(newBlog.toString());
             Blog savedBlog = blogMapper.createBlog(newBlog);
 
             return ResponseWrapper.success(savedBlog);

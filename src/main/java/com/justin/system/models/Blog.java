@@ -104,4 +104,19 @@ public class Blog {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "Blog{" +
+                "id=" + id +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", description='" + description + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", labelName='" + labelName + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }
