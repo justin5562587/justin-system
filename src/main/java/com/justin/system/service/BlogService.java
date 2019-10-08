@@ -43,10 +43,11 @@ public class BlogService {
             newBlog.setUpdateTime(currentTime);
 
             System.out.println(newBlog.toString());
-            Blog savedBlog = blogMapper.createBlog(newBlog);
+            blogMapper.createBlog(newBlog);
 
-            return ResponseWrapper.success(savedBlog);
+            return ResponseWrapper.success("success add blog");
         } catch (Exception e) {
+            System.out.println(e.toString());
             return ResponseWrapper.fail(e);
         }
     }
