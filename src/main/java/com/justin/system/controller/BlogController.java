@@ -14,8 +14,11 @@ public class BlogController {
     private BlogService blogService;
 
     @GetMapping("/list")
-    public ResponseWrapper getBlogList() {
-        return blogService.getBlogList();
+    public ResponseWrapper getBlogList(
+           @RequestParam int page,
+           @RequestParam int size
+    ) {
+        return blogService.getBlogList(page, size);
     }
 
     @GetMapping("/")

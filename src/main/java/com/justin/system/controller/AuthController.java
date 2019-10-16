@@ -1,6 +1,7 @@
 package com.justin.system.controller;
 
 import com.justin.system.entity.basic.ResponseWrapper;
+import com.justin.system.entity.request.LoginDTO;
 import com.justin.system.entity.request.ReqContactDTO;
 import com.justin.system.entity.request.ReqCreateUserDTO;
 import com.justin.system.service.AuthService;
@@ -18,8 +19,8 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseWrapper login() {
-        return authService.login();
+    public ResponseWrapper login(@RequestBody LoginDTO loginDTO) {
+        return authService.login(loginDTO);
     }
 
     @GetMapping("/logout")
