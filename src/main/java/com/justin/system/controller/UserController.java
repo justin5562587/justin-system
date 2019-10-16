@@ -15,9 +15,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/list")
-    public ResponseWrapper getUserList() {
-        return userService.getUserList();
-    }
+    public ResponseWrapper getUserList() { return userService.getUserList(); }
 
     @GetMapping("/")
     public ResponseWrapper getUser(@RequestParam Long id) {

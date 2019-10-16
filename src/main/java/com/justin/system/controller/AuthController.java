@@ -2,7 +2,6 @@ package com.justin.system.controller;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.LoginDTO;
-import com.justin.system.entity.request.ReqContactDTO;
 import com.justin.system.entity.request.ReqCreateUserDTO;
 import com.justin.system.service.AuthService;
 import com.justin.system.service.UserService;
@@ -26,11 +25,6 @@ public class AuthController {
     @GetMapping("/logout")
     public ResponseWrapper logout() {
         return authService.logout();
-    }
-
-    @PostMapping("/contact")
-    public ResponseWrapper contact(@RequestBody ReqContactDTO params) {
-        return authService.contact(params);
     }
 
     @PostMapping("/register")

@@ -2,7 +2,6 @@ package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.LoginDTO;
-import com.justin.system.entity.request.ReqContactDTO;
 import com.justin.system.models.User;
 import com.justin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +37,5 @@ public class AuthService {
 
     public ResponseWrapper logout() {
         return ResponseWrapper.success("logout successfully");
-    }
-
-    public ResponseWrapper contact(ReqContactDTO params) {
-        return ResponseWrapper.success(params);
     }
 }
