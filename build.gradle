@@ -19,6 +19,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
+    implementation 'com.auth0:java-jwt:3.8.3'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

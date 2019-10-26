@@ -2,6 +2,7 @@ package com.justin.system.controller;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateBlogDTO;
+import com.justin.system.entity.utils.JwtUtil;
 import com.justin.system.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,9 @@ public class BlogController {
     }
 
     @GetMapping("/")
-    public ResponseWrapper getBlogDetail(@RequestParam Long id) {
+    public ResponseWrapper getBlogDetail(@RequestHeader("Authorization") String authorization, @RequestParam Long id) {
+        String token = authorization;
+        JwtUtil.validateToken(token);
         return blogService.getBlogDetail(id);
     }
 

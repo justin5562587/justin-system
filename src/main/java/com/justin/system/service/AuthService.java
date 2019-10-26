@@ -2,12 +2,15 @@ package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.LoginDTO;
+import com.justin.system.entity.utils.JwtUtil;
 import com.justin.system.models.User;
 import com.justin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -29,13 +32,16 @@ public class AuthService {
             if (!ifMatch) {
                 return ResponseWrapper.fail("Password Incorrect");
             }
-            return ResponseWrapper.success("login successfully");
+            Map<String, Object> result = new HashMap<>();
+            String token = JwtUtil.generateToken(optionalUser.get());
+            result.put("token", token);
+            return ResponseWrapper.success(result);
         } else {
             return ResponseWrapper.fail("Email Not Existed");
         }
     }
 
     public ResponseWrapper logout() {
-        return ResponseWrapper.success("logout successfully");
+        return ResponseWrapper.success("Logout Successfully");
     }
 }
