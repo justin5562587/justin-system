@@ -18,11 +18,11 @@ public class ResponseWrapper {
     }
 
     public static ResponseWrapper success(Object message) {
-        return new ResponseWrapper("success", 200, "successInfo", message);
+        return new ResponseWrapper(ResponseStatus.SUCCESS.getMessage(), 200, "successInfo", message);
     }
 
     public static ResponseWrapper fail(Object message) {
-        return new ResponseWrapper("fail", 500, "failInfo", message);
+        return new ResponseWrapper(ResponseStatus.FAIL.getMessage(), 500, "failInfo", message);
     }
 
     public String getStatus() {
@@ -58,7 +58,17 @@ public class ResponseWrapper {
     }
 
     public enum ResponseStatus {
-        SUCCESS, FAIL;
+        SUCCESS("success"), FAIL("fail");
+
+        private String message;
+
+        ResponseStatus(String message) {
+            this.message = message;
+        }
+
+        String getMessage() {
+            return message;
+        }
     }
 
 }

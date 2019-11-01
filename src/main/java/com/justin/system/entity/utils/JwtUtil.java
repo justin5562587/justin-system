@@ -6,11 +6,13 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.justin.system.entity.basic.SystemConstant;
 import com.justin.system.models.User;
 
 import java.util.Date;
+import java.util.Map;
 
 public class JwtUtil {
 
@@ -18,7 +20,7 @@ public class JwtUtil {
 
     private static final String SECRET = "justinSystemSecretKey";
 
-    private static final long EXPIRE = 1000 * 60 * 60 * 24 * 7;
+    private static final long EXPIRE = 1000 * 60 * 60;
 
     public static String generateToken(User user) {
         try {
@@ -36,7 +38,7 @@ public class JwtUtil {
         }
     }
 
-    public static boolean validateToken(String token, User user) {
+    public static Map<String, Claim> validateToken(String token, User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             JWTVerifier jwtVerifier = JWT.require(algorithm)
@@ -46,9 +48,10 @@ public class JwtUtil {
                     .withIssuer("auth0")
                     .build();
             jwtVerifier.verify(token);
-            return true;
+            DecodedJWT decodedJWT = jwtVerifier.verify(token);
+            return decodedJWT.getClaims();
         } catch (JWTVerificationException exception) {
-            return false;
+            throw new RuntimeException(exception.toString());
         }
     }
 
@@ -58,7 +61,7 @@ public class JwtUtil {
             DecodedJWT decodedJWT = JWT.decode(token);
             return decodedJWT.getClaim(claimName).asString();
         } catch (JWTDecodeException exception) {
-            return "解密Token中的公共信息出现JWTDecodeException异常";
+            return "解密Token中的公共信息出现JWTDecodeException异常" + exception.toString();
         }
     }
 }
