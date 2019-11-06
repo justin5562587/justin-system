@@ -4,7 +4,6 @@ import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.basic.SystemConstant;
 import com.justin.system.models.User;
 import com.justin.system.repository.UserRepository;
-import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,13 +23,12 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private UserRepository userRepository;
 
-    private static final Logger logger = Logger.getLogger(TokenInterceptor.class);
-
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
         boolean ret;
 
         String token = req.getHeader("Authorization");
+        System.out.println(token);
 
         // 开发时无需token，测试or部署时需要改成false
         if (token == null || token.equals("")) {
@@ -52,7 +50,8 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 
         if (!ret) {
             String message = "认证失败";
-            this.response401(res, message);
+            throw new RuntimeException(message);
+//            this.response401(res, message);
         }
 
         return ret;
