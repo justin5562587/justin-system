@@ -4,12 +4,10 @@ import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.basic.SystemConstant;
 import com.justin.system.models.User;
 import com.justin.system.repository.UserRepository;
-import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedWriter;
@@ -29,8 +27,6 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 
         String token = req.getHeader("Authorization");
         System.out.println(token);
-
-        // 开发时无需token，测试or部署时需要改成false
         if (token == null || token.equals("")) {
             ret = false;
         } else {
@@ -50,14 +46,14 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 
         if (!ret) {
             String message = "认证失败";
-            throw new RuntimeException(message);
-//            this.response401(res, message);
+            this.response401(res, message);
         }
 
         return ret;
     }
 
     private void response401(HttpServletResponse res, String message) {
+        System.out.println("Enter function response401");
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
         res.setCharacterEncoding("UTF-8");
         res.setContentType("application/json; charset=utf-8");
@@ -72,27 +68,8 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
             out.append(result.toString());
             out.close();
         } catch (IOException e) {
+            System.out.println(e.toString());
             throw new RuntimeException(e.toString());
-        }
-    }
-
-    private void response401(ServletResponse servletResponse, String message) {
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=utf-8");
-        Writer out;
-        try {
-            out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream()));
-            ResponseWrapper result = new ResponseWrapper();
-            result.setCode(401);
-            result.setMessage(message);
-            result.setStatus("fail");
-            result.setData(message);
-            out.append(result.toString());
-            out.close();
-        } catch (IOException e) {
-            throw new AuthorizationException("直接返回Response信息出现以下IOException异常" + e.toString());
         }
     }
 
