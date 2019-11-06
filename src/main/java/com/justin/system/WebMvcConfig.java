@@ -3,8 +3,12 @@ package com.justin.system;
 import com.justin.system.entity.utils.TokenInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.ArrayList;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -17,7 +21,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor());
-
+        InterceptorRegistration interceptorRegistration = registry.addInterceptor(tokenInterceptor());
+        ArrayList<String> excludedPath = new ArrayList<>();
+        excludedPath.add("/login");
+        interceptorRegistration.excludePathPatterns(excludedPath);
     }
 }
