@@ -1,5 +1,6 @@
 package com.justin.system.entity.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.basic.SystemConstant;
 import com.justin.system.models.User;
@@ -26,7 +27,6 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         boolean ret;
 
         String token = req.getHeader("Authorization");
-        System.out.println(token);
         if (token == null || token.equals("")) {
             ret = false;
         } else {
@@ -61,14 +61,12 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         try {
             out = new BufferedWriter(new OutputStreamWriter(res.getOutputStream()));
             ResponseWrapper result = new ResponseWrapper();
-            result.setCode(401);
             result.setMessage(message);
             result.setStatus("fail");
-            result.setData(message);
-            out.append(result.toString());
+            result.setCode(401);
+            out.append(JSON.toJSONString(result));
             out.close();
         } catch (IOException e) {
-            System.out.println(e.toString());
             throw new RuntimeException(e.toString());
         }
     }

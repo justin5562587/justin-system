@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     TokenInterceptor tokenInterceptor() {
         return new TokenInterceptor();
     }
-
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
