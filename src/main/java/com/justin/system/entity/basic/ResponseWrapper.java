@@ -8,6 +8,7 @@ public class ResponseWrapper {
     private Object data;
 
     public ResponseWrapper() {
+        this.data = null;
     }
 
     public ResponseWrapper(String status, Integer code, String message, Object data) {
@@ -17,12 +18,16 @@ public class ResponseWrapper {
         this.data = data;
     }
 
-    public static ResponseWrapper success(Object message) {
-        return new ResponseWrapper(ResponseStatus.SUCCESS.getMessage(), 200, "successInfo", message);
+    public static ResponseWrapper success(Object data) {
+        return new ResponseWrapper(ResponseStatus.SUCCESS.getMessage(), 200, "success", data);
     }
 
-    public static ResponseWrapper fail(Object message) {
-        return new ResponseWrapper(ResponseStatus.FAIL.getMessage(), 500, "failInfo", message);
+    public static ResponseWrapper fail(Object data) {
+        return new ResponseWrapper(ResponseStatus.FAIL.getMessage(), 400, "fail", data);
+    }
+
+    public static ResponseWrapper error(Object data) {
+        return new ResponseWrapper(ResponseStatus.ERROR.getMessage(), 500, "error", data);
     }
 
     public String getStatus() {
@@ -58,7 +63,7 @@ public class ResponseWrapper {
     }
 
     public enum ResponseStatus {
-        SUCCESS("success"), FAIL("fail");
+        SUCCESS("success"), FAIL("fail"), ERROR("error");
 
         private String message;
 

@@ -22,6 +22,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private UserRepository userRepository;
 
+    // token拦截器逻辑
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
         boolean ret;
@@ -52,8 +53,8 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         return ret;
     }
 
+    // 缺失token情况下访问非公开api调用
     private void response401(HttpServletResponse res, String message) {
-        System.out.println("Enter function response401");
         res.setStatus(HttpStatus.UNAUTHORIZED.value());
         res.setCharacterEncoding("UTF-8");
         res.setContentType("application/json; charset=utf-8");
@@ -62,8 +63,26 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
             out = new BufferedWriter(new OutputStreamWriter(res.getOutputStream()));
             ResponseWrapper result = new ResponseWrapper();
             result.setMessage(message);
-            result.setStatus("fail");
-            result.setCode(401);
+            result.setStatus(HttpStatus.UNAUTHORIZED.toString());
+            result.setCode(HttpStatus.UNAUTHORIZED.value());
+            out.append(JSON.toJSONString(result));
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e.toString());
+        }
+    }
+
+    private void response500(HttpServletResponse res, String message) {
+        res.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        res.setCharacterEncoding("UTF-8");
+        res.setContentType("application/json; charset=utf-8");
+        Writer out;
+        try {
+            out = new BufferedWriter(new OutputStreamWriter(res.getOutputStream()));
+            ResponseWrapper result = new ResponseWrapper();
+            result.setMessage(message);
+            result.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+            result.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             out.append(JSON.toJSONString(result));
             out.close();
         } catch (IOException e) {

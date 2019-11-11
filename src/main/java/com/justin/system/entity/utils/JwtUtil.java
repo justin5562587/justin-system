@@ -20,11 +20,12 @@ public class JwtUtil {
 
     private static final String SECRET = "justinSystemSecretKey";
 
-    private static final long EXPIRE = 1000 * 60 * 60;
+    private static final long EXPIRE = 1000 * 60 * 60; // 暂时一小时
+
+    private static final Algorithm algorithm = Algorithm.HMAC256(SECRET);
 
     public static String generateToken(User user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(SECRET);
             return JWT.create()
                     .withSubject(SUBJECT)
                     .withClaim(SystemConstant.USER_NAME, user.getUsername())
@@ -40,7 +41,6 @@ public class JwtUtil {
 
     public static Map<String, Claim> validateToken(String token, User user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(SECRET);
             JWTVerifier jwtVerifier = JWT.require(algorithm)
                     .withClaim(SystemConstant.USER_NAME, user.getUsername())
                     .withClaim(SystemConstant.USER_EMAIL, user.getEmail())
