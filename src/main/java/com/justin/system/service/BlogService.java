@@ -1,6 +1,7 @@
 package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
+import com.justin.system.entity.enums.ErrorTypeEnum;
 import com.justin.system.entity.request.ReqCreateBlogDTO;
 import com.justin.system.models.Blog;
 import com.justin.system.repository.BlogRepository;
@@ -35,10 +36,9 @@ public class BlogService {
 
     public ResponseWrapper getBlogDetail(Long id) {
         Optional<Blog> foundBlog = blogRepository.findById(id);
-        if (foundBlog.isPresent()) {
-            return ResponseWrapper.success(foundBlog);
-        }
-        return ResponseWrapper.fail("Not Found");
+        return foundBlog.isPresent() ?
+                ResponseWrapper.success(foundBlog) :
+                ResponseWrapper.fail(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
     }
 
     @Transactional
@@ -61,8 +61,7 @@ public class BlogService {
 
             return ResponseWrapper.success(addBlog);
         } catch (Exception e) {
-            System.out.println(e.toString());
-            return ResponseWrapper.fail(e);
+            return ResponseWrapper.error(e.toString());
         }
     }
 
@@ -72,7 +71,7 @@ public class BlogService {
             blogRepository.deleteById(id);
             return ResponseWrapper.success("delete blog successfully");
         } catch (Exception e) {
-            return ResponseWrapper.fail(e);
+            return ResponseWrapper.error(e.toString());
         }
     }
 }

@@ -7,9 +7,14 @@ import com.justin.system.entity.request.ReqUpdateArticleDTO;
 import com.justin.system.models.Article;
 import com.justin.system.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -18,9 +23,16 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public ResponseWrapper getArticleList() {
-        Iterable<Article> foundArticles = articleRepository.findAll();
-        return ResponseWrapper.success(foundArticles);
+    public ResponseWrapper getArticleList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        articleRepository.findAll(pageable);
+        Page<Article> pageRet = articleRepository.findAll(pageable);
+        Map<String, Object> retMap = new HashMap<>();
+        retMap.put("page", pageRet.getNumber());
+        retMap.put("size", pageRet.getSize());
+        retMap.put("total", pageRet.getTotalElements());
+        retMap.put("content", pageRet.getContent());
+        return ResponseWrapper.success(retMap);
     }
 
     public ResponseWrapper getArticleDetail(Long id) {
@@ -45,13 +57,11 @@ public class ArticleService {
             article.setCreateTime(currentTime);
             article.setUpdateTime(currentTime);
 
-            System.out.println(article.getClass().getName());
-
-//            articleRepository.save(article);
+            articleRepository.save(article);
 
             return ResponseWrapper.success("successfully create article");
         } catch (Exception e) {
-            return ResponseWrapper.fail(ErrorTypeEnum.CREATE_FAILURE.getDescription());
+            return ResponseWrapper.fail(e.getMessage());
         }
     }
 
@@ -71,7 +81,7 @@ public class ArticleService {
                 return ResponseWrapper.fail(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
             }
         } catch (Exception e) {
-            return ResponseWrapper.fail(ErrorTypeEnum.UPDATE_FAILURE.getDescription());
+            return ResponseWrapper.fail(e.getMessage());
         }
     }
 
@@ -79,10 +89,9 @@ public class ArticleService {
     public ResponseWrapper deleteArticle(Long id) {
         try {
             articleRepository.deleteById(id);
-
             return ResponseWrapper.success("delete article successfully");
         } catch (IllegalArgumentException e) {
-            return ResponseWrapper.fail(ErrorTypeEnum.DELETE_FAILURE.getDescription());
+            return ResponseWrapper.fail(e.getMessage());
         }
     }
 }

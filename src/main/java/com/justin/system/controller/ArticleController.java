@@ -3,12 +3,9 @@ package com.justin.system.controller;
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateArticleDTO;
 import com.justin.system.entity.request.ReqUpdateArticleDTO;
-import com.justin.system.models.Article;
 import com.justin.system.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping(value = "article")
@@ -18,8 +15,11 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/list")
-    public ResponseWrapper getArticleList() {
-        return articleService.getArticleList();
+    public ResponseWrapper getArticleList(
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        return articleService.getArticleList(page, size);
     }
 
     @GetMapping("/")
