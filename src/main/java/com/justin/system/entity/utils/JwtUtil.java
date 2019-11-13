@@ -20,7 +20,7 @@ public class JwtUtil {
 
     private static final String SECRET = "justinSystemSecretKey";
 
-    private static final long EXPIRE = 1000 * 60 * 60; // 暂时一小时
+    private static final long EXPIRE = 1000 * 60 * 60 * 2; // 暂时一小时
 
     private static final Algorithm algorithm = Algorithm.HMAC256(SECRET);
 

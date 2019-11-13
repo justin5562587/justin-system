@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+@Deprecated
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     private static String refreshTokenExpireTime;

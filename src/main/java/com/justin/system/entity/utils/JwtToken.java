@@ -2,6 +2,7 @@ package com.justin.system.entity.utils;
 
 import org.apache.shiro.authc.AuthenticationToken;
 
+@Deprecated
 public class JwtToken implements AuthenticationToken {
 
     private String token;
