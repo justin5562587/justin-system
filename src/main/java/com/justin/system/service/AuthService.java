@@ -25,6 +25,7 @@ public class AuthService {
         } else if (loginDTO.getPassword() == null) {
             return ResponseWrapper.fail("Need Password");
         }
+        System.out.println(loginDTO.getPassword() + loginDTO.getEmail());
         Optional<User> optionalUser = userRepository.findByEmail(loginDTO.getEmail());
         if (optionalUser.isPresent()) {
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
