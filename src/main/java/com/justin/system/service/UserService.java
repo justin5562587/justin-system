@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -20,11 +20,12 @@ public class UserService {
     private UserMapper userMapper;
 
     public ResponseWrapper getUserList() {
-        return ResponseWrapper.success(null);
+        List<User> userList = userMapper.getUserList();
+        return ResponseWrapper.success(userList);
     }
 
     public ResponseWrapper getUserDetail(Long id) {
-        User retUser = userMapper.findUserById(id);
+        User retUser = userMapper.getUserById(id);
         return retUser != null ?
                 ResponseWrapper.success(retUser) :
                 ResponseWrapper.fail("User Not Found");
@@ -62,7 +63,12 @@ public class UserService {
     }
 
     public ResponseWrapper deleteUser(Long id) {
-        return null;
+        try {
+            userMapper.deleteUserById(id);
+            return ResponseWrapper.success("Delete User Successfully");
+        } catch (Exception e) {
+            return ResponseWrapper.fail(e.getCause());
+        }
     }
 
 }
