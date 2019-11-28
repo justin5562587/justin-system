@@ -16,6 +16,15 @@ public class User {
     private String password;
     private String email;
     private String userType;
+    private Long points;
+
+    public Long getPoints() {
+        return points;
+    }
+
+    public void setPoints(Long points) {
+        this.points = points;
+    }
 
     public Long getId() {
         return id;
