@@ -3,6 +3,7 @@ package com.justin.system.entity.utils;
 import com.alibaba.fastjson.JSON;
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.basic.SystemConstant;
+import com.justin.system.mapper.UserMapper;
 import com.justin.system.models.User;
 import com.justin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,37 +21,38 @@ import java.util.Optional;
 public class TokenInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserMapper userMapper;
 
     // token拦截器逻辑
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
-        boolean ret;
+//        boolean ret;
+//
+//        String token = req.getHeader("Authorization");
+//        if (token == null || token.equals("")) {
+//            ret = false;
+//        } else {
+//            try {
+//                String email = JwtUtil.getClaim(token, SystemConstant.USER_EMAIL);
+//                Optional<User> optionalUser = userRepository.findByEmail(email);
+//                if (optionalUser.isPresent()) {
+//                    JwtUtil.validateToken(token, optionalUser.get());
+//                    ret = true;
+//                } else {
+//                    throw new RuntimeException("User Not Existed");
+//                }
+//            } catch (Exception e) {
+//                throw new RuntimeException(e.toString());
+//            }
+//        }
+//
+//        if (!ret) {
+//            String message = "认证失败";
+//            this.response401(res, message);
+//        }
 
-        String token = req.getHeader("Authorization");
-        if (token == null || token.equals("")) {
-            ret = false;
-        } else {
-            try {
-                String email = JwtUtil.getClaim(token, SystemConstant.USER_EMAIL);
-                Optional<User> optionalUser = userRepository.findByEmail(email);
-                if (optionalUser.isPresent()) {
-                    JwtUtil.validateToken(token, optionalUser.get());
-                    ret = true;
-                } else {
-                    throw new RuntimeException("User Not Existed");
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e.toString());
-            }
-        }
-
-        if (!ret) {
-            String message = "认证失败";
-            this.response401(res, message);
-        }
-
-        return ret;
+//        return ret;
+        return true;
     }
 
     // 缺失token情况下访问非公开api调用

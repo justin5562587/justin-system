@@ -4,53 +4,35 @@ import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.enums.ErrorTypeEnum;
 import com.justin.system.entity.request.ReqCreateUserDTO;
 import com.justin.system.entity.request.ReqUpdateUserDTO;
+import com.justin.system.mapper.UserMapper;
 import com.justin.system.models.User;
 import com.justin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserMapper userMapper;
 
     public ResponseWrapper getUserList() {
-        Iterable<User> foundUsers = userRepository.findAll();
-        return ResponseWrapper.success(foundUsers);
+        return ResponseWrapper.success(null);
     }
 
     public ResponseWrapper getUserDetail(Long id) {
-        Optional<User> foundUser = userRepository.findById(id);
-        return foundUser.isPresent() ?
-                ResponseWrapper.success(foundUser) :
-                ResponseWrapper.fail(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
+        User retUser = userMapper.findUserById(id);
+        return retUser != null ?
+                ResponseWrapper.success(retUser) :
+                ResponseWrapper.fail("User Not Found");
     }
 
-    @Transactional
     public ResponseWrapper createUser(ReqCreateUserDTO params) {
         try {
             User newUser = new User();
-
-            Iterable<User> userIterable = userRepository.findAll();
-
-            // handle email && username
-            String email = params.getEmail();
-            String username = params.getUsername();
-            for (User user : userIterable) {
-                if (user.getEmail().equals(email)) {
-                    return ResponseWrapper.fail("Existed Email");
-                }
-                if (user.getUsername().equals(username)) {
-                    return ResponseWrapper.fail("Existed Username");
-                }
-            }
-            newUser.setEmail(email);
-            newUser.setUsername(username);
 
             // encode password
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -63,43 +45,24 @@ public class UserService {
             newUser.setUpdateTime(currentTime);
 
             newUser.setUserType(params.getUserType());
+            newUser.setEmail(params.getEmail());
+            newUser.setUsername(params.getUsername());
+            newUser.setPoints(params.getPoints());
 
-            User savedUser = userRepository.save(newUser);
+            userMapper.save(newUser);
 
-            return ResponseWrapper.success(savedUser);
+            return ResponseWrapper.success("Create User Successfully");
         } catch (Exception e) {
-            return ResponseWrapper.fail(ErrorTypeEnum.CREATE_FAILURE.getDescription());
+            return ResponseWrapper.fail(e.getCause() + e.getMessage());
         }
     }
 
-    @Transactional
     public ResponseWrapper updateUser(ReqUpdateUserDTO params) {
-        try {
-            Optional<User> optionalUser = userRepository.findById(params.getId());
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                user.setUserType(params.getUserType());
-                user.setUsername(params.getUsername());
-                user.setEmail(params.getEmail());
-                userRepository.save(user);
-
-                return ResponseWrapper.success("Update user successfully");
-            } else {
-                return ResponseWrapper.fail(ErrorTypeEnum.CAN_NOT_FOUND.getDescription());
-            }
-        } catch (Exception e) {
-            return ResponseWrapper.fail(ErrorTypeEnum.UPDATE_FAILURE.getDescription());
-        }
+        return null;
     }
 
-    @Transactional
     public ResponseWrapper deleteUser(Long id) {
-        try {
-            userRepository.deleteById(id);
-            return ResponseWrapper.success("delete user successfully");
-        } catch (Exception e) {
-            return ResponseWrapper.fail(ErrorTypeEnum.DELETE_FAILURE.getDescription());
-        }
+        return null;
     }
 
 }

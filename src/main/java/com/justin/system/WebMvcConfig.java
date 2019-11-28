@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 
-@Configuration
+//@Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
