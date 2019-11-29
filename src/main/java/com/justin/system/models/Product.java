@@ -13,5 +13,6 @@ public class Product {
     private String imgUrl;
     private Long price; // 实际价格
     private Long pointPrice; // 积分换购价格
+    private int deleted; // 1删除 0为删除
 
 }
