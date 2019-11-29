@@ -4,9 +4,9 @@ import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.enums.ErrorTypeEnum;
 import com.justin.system.entity.request.ReqCreateUserDTO;
 import com.justin.system.entity.request.ReqUpdateUserDTO;
+import com.justin.system.entity.search.SearchUserDTO;
 import com.justin.system.mapper.UserMapper;
 import com.justin.system.models.User;
-import com.justin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,13 +19,15 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     public ResponseWrapper getUserList() {
         List<User> userList = userMapper.getUserList();
         return ResponseWrapper.success(userList);
     }
 
-    public ResponseWrapper getUserDetail(Long id) {
-        User retUser = userMapper.getUserById(id);
+    public ResponseWrapper getUserDetail(SearchUserDTO searchUserDTO) {
+        User retUser = userMapper.getUserByParams(searchUserDTO);
         return retUser != null ?
                 ResponseWrapper.success(retUser) :
                 ResponseWrapper.fail("User Not Found");
@@ -36,7 +38,6 @@ public class UserService {
             User newUser = new User();
 
             // encode password
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             String bCryptPassword = bCryptPasswordEncoder.encode(params.getPassword());
             newUser.setPassword(bCryptPassword);
 
@@ -54,12 +55,41 @@ public class UserService {
 
             return ResponseWrapper.success("Create User Successfully");
         } catch (Exception e) {
-            return ResponseWrapper.fail(e.getCause() + e.getMessage());
+            return ResponseWrapper.fail(e.getCause());
         }
     }
 
     public ResponseWrapper updateUser(ReqUpdateUserDTO params) {
-        return null;
+        try {
+            User user = new User();
+            user.setId(params.getId());
+            user.setPoints(params.getPoints());
+            user.setUserType(params.getUserType());
+
+            userMapper.updateUser(params);
+
+            return ResponseWrapper.success("Update User Successfully");
+        } catch (Exception e) {
+            return ResponseWrapper.fail(e.getCause());
+        }
+    }
+
+    public ResponseWrapper updateUserPassword(ReqUpdateUserDTO params) {
+        try {
+            SearchUserDTO searchUserDTO = new SearchUserDTO();
+            searchUserDTO.setId(params.getId());
+            User user = userMapper.getUserByParams(searchUserDTO);
+            boolean isOldPasswordMatch = bCryptPasswordEncoder.matches(params.getOldPassword(), user.getPassword());
+            if (isOldPasswordMatch) {
+                String newPassword = bCryptPasswordEncoder.encode(params.getPassword());
+                userMapper.updateUserPassword(newPassword, params.getId());
+                return ResponseWrapper.success("Update User Password Successfully");
+            } else {
+                return ResponseWrapper.fail("Old Password is not matched");
+            }
+        } catch (Exception e) {
+            return ResponseWrapper.fail(e.getCause());
+        }
     }
 
     public ResponseWrapper deleteUser(Long id) {

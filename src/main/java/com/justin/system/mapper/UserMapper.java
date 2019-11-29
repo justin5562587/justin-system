@@ -1,5 +1,7 @@
 package com.justin.system.mapper;
 
+import com.justin.system.entity.request.ReqUpdateUserDTO;
+import com.justin.system.entity.search.SearchUserDTO;
 import com.justin.system.models.User;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -14,39 +16,35 @@ public interface UserMapper {
             "values(#{id}, #{createTime}, #{updateTime}, #{email}, #{password}, #{points}, #{userType}, #{username});")
     void save(User user);
 
-//    @Select("<script> " +
-//            "select * from user_table where 1=1 "
-//            +"limit #{page},#{size}"
-//            + "</script>")
-//    List<User> getUserList(int page, int size);
+    @Select("<script> " +
+            "select * from user_table where 1=1 "
+            + "<if test='id != null'>"
+            + "and id =#{id} "
+            + "</if>"
+            + "<if test='username != null'>"
+            + "and username =#{username} "
+            + "</if>"
+            + "<if test='email != null'>"
+            + "and email =#{email} "
+            + "</if>"
+            + "</script>")
+    User getUserByParams(SearchUserDTO searchUserDTO);
 
-    @Select("select * from user_table;")
+    @Select("<script> " +
+            "select * from user_table where 1=1 "
+            + "limit #{page},#{size}"
+            + "</script>")
+    List<User> getUserList(int page, int size);
+
     List<User> getUserList();
-
-    @Select("select * from user_table ut where ut.id=#{id};")
-    User getUserById(Long id);
-
-    @Select("<script> " +
-            "select * from user_table where 1=1 "
-            + "<if test='page != null'>"
-            + "and email=${email} "
-            + "</if>"
-            + "</script>")
-    User getUserByParams(Object SearchUserDTO);
-
-    @Select("<script> " +
-            "select * from user_table where 1=1 "
-            + "<if test='page != null'>"
-            + "and page=${page} "
-            + "</if>"
-            + "<if test='size != null'>"
-            + "and id=${size} "
-            + "</if>"
-            + "</script>")
-    User findUser(Object SearchUserDTO);
 
     @Delete("delete from user_table ut where ut.id=${id}")
     void deleteUserById(Long id);
 
+    @Update("update user_table set points=#{points}, user_type=#{userType} where id=#{id}")
+    void updateUser(ReqUpdateUserDTO reqUpdateUserDTO);
+
+    @Update("update uer_table set password=#{password} where id=#{id}")
+    void updateUserPassword(String password, Long id);
 
 }

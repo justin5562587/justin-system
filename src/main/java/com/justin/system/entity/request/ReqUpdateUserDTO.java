@@ -5,10 +5,11 @@ import lombok.Data;
 @Data
 public class ReqUpdateUserDTO {
 
+    // 至少要带有id
     private Long id;
-    private String username;
-//    private String password;
-    private String email;
     private String userType;
+    private Long points;
+    private String password;
+    private String oldPassword;
 
 }

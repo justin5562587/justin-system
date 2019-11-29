@@ -2,19 +2,22 @@ package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.LoginDTO;
+import com.justin.system.entity.search.SearchUserDTO;
 import com.justin.system.entity.utils.JwtUtil;
+import com.justin.system.mapper.UserMapper;
 import com.justin.system.models.User;
-import com.justin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class AuthService {
+
+    @Autowired
+    private UserMapper userMapper;
 
     public ResponseWrapper login(LoginDTO loginDTO) {
         if (loginDTO.getEmail() == null) {
@@ -23,27 +26,25 @@ public class AuthService {
             return ResponseWrapper.fail("Need Password");
         }
 
-//        // 找到用户
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        boolean ifMatch = bCryptPasswordEncoder.matches(loginDTO.getPassword(), optionalUser.get().getPassword());
-//
-//        return null;
-//
-//        Optional<User> optionalUser = userRepository.findByEmail(loginDTO.getEmail());
-//        if (optionalUser.isPresent()) {
-//            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//            boolean ifMatch = bCryptPasswordEncoder.matches(loginDTO.getPassword(), optionalUser.get().getPassword());
-//            if (!ifMatch) {
-//                return ResponseWrapper.fail("Password Incorrect");
-//            }
-//            Map<String, Object> result = new HashMap<>();
-//            String token = JwtUtil.generateToken(optionalUser.get());
-//            result.put("token", token);
-//            return ResponseWrapper.success(result);
-//        } else {
-//            return ResponseWrapper.fail("Email Not Existed");
-//        }
-        return null;
+        SearchUserDTO searchUserDTO = new SearchUserDTO();
+        searchUserDTO.setEmail(loginDTO.getEmail());
+        User user = userMapper.getUserByParams(searchUserDTO);
+
+        if (user == null) {
+            return ResponseWrapper.fail("User Not Found");
+        }
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        boolean isPasswordMatch = bCryptPasswordEncoder.matches(loginDTO.getPassword(), user.getPassword());
+
+        if (isPasswordMatch) {
+            Map<String, Object> result = new HashMap<>();
+            String token = JwtUtil.generateToken(user);
+            result.put("token", token);
+            return ResponseWrapper.success(result);
+        } else {
+         return ResponseWrapper.fail("Password Not Matched");
+        }
     }
 
     public ResponseWrapper logout() {
