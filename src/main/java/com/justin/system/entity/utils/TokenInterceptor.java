@@ -2,10 +2,7 @@ package com.justin.system.entity.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.justin.system.entity.basic.ResponseWrapper;
-import com.justin.system.entity.basic.SystemConstant;
 import com.justin.system.mapper.UserMapper;
-import com.justin.system.models.User;
-import com.justin.system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -16,7 +13,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.Optional;
 
 public class TokenInterceptor extends HandlerInterceptorAdapter {
 

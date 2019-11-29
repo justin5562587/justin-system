@@ -2,6 +2,7 @@ package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateProductDTO;
+import com.justin.system.entity.request.ReqUpdateProductDTO;
 import com.justin.system.mapper.ProductMapper;
 import com.justin.system.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,19 @@ public class ProductService {
         product.setName(reqCreateProductDTO.getName());
         product.setPrice(reqCreateProductDTO.getPrice());
         product.setPointPrice(reqCreateProductDTO.getPointPrice());
-//        product.setDeleted(0);
 
         productMapper.save(product);
 
         return ResponseWrapper.success("Create Product Successfully");
     }
 
-    public ResponseWrapper updateProduct() {
-        productMapper.updateProduct();
-        return ResponseWrapper.success("Update Product Successfully");
+    public ResponseWrapper updateProduct(ReqUpdateProductDTO reqUpdateProductDTO) {
+        Product product = productMapper.getProductById(reqUpdateProductDTO.getId());
+        if (product != null) {
+            productMapper.updateProduct(reqUpdateProductDTO);
+            return ResponseWrapper.success("Update Product Successfully");
+        }
+        return ResponseWrapper.fail("Product Not Found");
     }
 
     public ResponseWrapper getProduct(Long id) {

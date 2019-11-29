@@ -1,5 +1,6 @@
 package com.justin.system.mapper;
 
+import com.justin.system.entity.request.ReqUpdateProductDTO;
 import com.justin.system.models.Product;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -22,6 +23,27 @@ public interface ProductMapper {
     @Update("update product_table set deleted=1 where id=#{id}")
     void deleteProduct(Long id);
 
-    @Update("update product_table")
-    void updateProduct();
+    @Update("<script> " +
+            "update product_table set "
+            +"<if test='name != null'>"
+            +"name = #{name} "
+            +"</if>"
+            +"<if test='description != null'>"
+            +",description = #{description} "
+            +"</if>"
+            +"<if test='imgUrl != null'>"
+            +",img_url = #{imgUrl} "
+            +"</if>"
+            +"<if test='price != null'>"
+            +",price = #{price} "
+            +"</if>"
+            +"<if test='pointPrice != null'>"
+            +",point_price = #{pointPrice} "
+            +"</if>"
+            +"<if test='deleted != null'>"
+            +",deleted = #{deleted} "
+            +"</if>"
+            +" where id = #{id}"
+            +"</script>")
+    void updateProduct(ReqUpdateProductDTO reqUpdateProductDTO);
 }

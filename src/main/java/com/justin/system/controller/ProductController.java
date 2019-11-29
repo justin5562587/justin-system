@@ -2,6 +2,7 @@ package com.justin.system.controller;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateProductDTO;
+import com.justin.system.entity.request.ReqUpdateProductDTO;
 import com.justin.system.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,8 @@ public class ProductController {
     }
 
     @PutMapping("/update")
-    public ResponseWrapper updateProduct() {
-        return productService.updateProduct();
+    public ResponseWrapper updateProduct(@RequestBody ReqUpdateProductDTO reqUpdateProductDTO) {
+        return productService.updateProduct(reqUpdateProductDTO);
     }
 
     @DeleteMapping("/delete")
