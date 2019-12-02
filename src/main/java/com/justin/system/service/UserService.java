@@ -1,5 +1,6 @@
 package com.justin.system.service;
 
+import com.justin.system.entity.basic.PageEntity;
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.enums.ErrorTypeEnum;
 import com.justin.system.entity.request.ReqCreateUserDTO;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -21,9 +23,10 @@ public class UserService {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    public ResponseWrapper getUserList() {
-        List<User> userList = userMapper.getUserList();
-        return ResponseWrapper.success(userList);
+    public ResponseWrapper getUserList(int pageNumber, int pageSize) {
+        List<User> userList = userMapper.getUserList(pageNumber * pageSize, pageSize);
+        Map<String, Object> result = PageEntity.renderPageableRet(pageNumber, pageSize, userList);
+        return ResponseWrapper.success(result);
     }
 
     public ResponseWrapper getUserDetail(SearchUserDTO searchUserDTO) {

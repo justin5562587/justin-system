@@ -17,7 +17,7 @@ public interface UserMapper {
     void save(User user);
 
     @Select("<script> " +
-            "select * from user_table where 1=1 "
+            "select * from user_table "
             + "<if test='id != null'>"
             + "and id =#{id} "
             + "</if>"
@@ -32,11 +32,9 @@ public interface UserMapper {
 
     @Select("<script> " +
             "select * from user_table where 1=1 "
-            + "limit #{page},#{size}"
+            + "limit #{offset},#{pageSize}"
             + "</script>")
-    List<User> getUserList(int page, int size);
-
-    List<User> getUserList();
+    List<User> getUserList(int offset, int pageSize);
 
     @Delete("delete from user_table ut where ut.id=${id}")
     void deleteUserById(Long id);

@@ -11,5 +11,6 @@ public class ReqUpdateUserDTO {
     private Long points;
     private String password;
     private String oldPassword;
+    private Long updateTime;
 
 }

@@ -16,8 +16,11 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/list")
-    public ResponseWrapper getUserList() {
-        return userService.getUserList();
+    public ResponseWrapper getUserList(
+            @RequestParam int pageNumber,
+            @RequestParam int pageSize
+    ) {
+        return userService.getUserList(pageNumber, pageSize);
     }
 
     @GetMapping("/detail")
