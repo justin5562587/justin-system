@@ -25,8 +25,11 @@ public class ProductController {
     }
 
     @GetMapping("/list")
-    public ResponseWrapper getProductList() {
-        return productService.getProductList();
+    public ResponseWrapper getProductList(
+            @RequestParam int pageNumber,
+            @RequestParam int pageSize
+    ) {
+        return productService.getProductList(pageNumber, pageSize);
     }
 
     @PutMapping("/update")

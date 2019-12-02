@@ -8,7 +8,9 @@ import com.justin.system.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductService {
@@ -50,9 +52,13 @@ public class ProductService {
                 ResponseWrapper.success(product);
     }
 
-    public ResponseWrapper getProductList() {
-        List<Product> products = productMapper.getProductList();
-        return ResponseWrapper.success(products);
+    public ResponseWrapper getProductList(int pageNumber, int pageSize) {
+        List<Product> products = productMapper.getProductList(pageNumber * pageSize, pageSize);
+        Map<String, Object> result = new HashMap<>();
+        result.put("pageSize", pageSize);
+        result.put("pageNumber", pageNumber);
+        result.put("content", products);
+        return ResponseWrapper.success(result);
     }
 
     public ResponseWrapper deleteProduct(Long id) {
