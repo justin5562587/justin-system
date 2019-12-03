@@ -13,3 +13,5 @@ alter table user_table engine=InnoDB;
 alter table product_order_table engine=InnoDB;
 alter table product_table engine=InnoDB;
 alter table product_order_related_table engine=InnoDB;
+
+alter table product_table modify deleted smallint;

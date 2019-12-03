@@ -19,15 +19,15 @@ public class ResponseWrapper {
     }
 
     public static ResponseWrapper success(Object data) {
-        return new ResponseWrapper(ResponseStatus.SUCCESS.getMessage(), 200, "success", data);
+        return new ResponseWrapper(ResponseStatus.SUCCESS.getMessage(), 200, "customer_200_success", data);
     }
 
     public static ResponseWrapper fail(Object data) {
-        return new ResponseWrapper(ResponseStatus.FAIL.getMessage(), 400, "fail", data);
+        return new ResponseWrapper(ResponseStatus.FAIL.getMessage(), 400, "customer_400_fail", data);
     }
 
     public static ResponseWrapper error(Object data) {
-        return new ResponseWrapper(ResponseStatus.ERROR.getMessage(), 500, "error", data);
+        return new ResponseWrapper(ResponseStatus.ERROR.getMessage(), 500, "customer_500_error", data);
     }
 
     public String getStatus() {

@@ -17,15 +17,15 @@ public interface UserMapper {
     void save(User user);
 
     @Select("<script> " +
-            "select * from user_table "
+            "select * from user_table where 1=1 "
             + "<if test='id != null'>"
-            + "and id =#{id} "
+            + "and id=#{id} "
             + "</if>"
             + "<if test='username != null'>"
-            + "and username =#{username} "
+            + "and username=#{username} "
             + "</if>"
             + "<if test='email != null'>"
-            + "and email =#{email} "
+            + "and email=#{email} "
             + "</if>"
             + "</script>")
     User getUserByParams(SearchUserDTO searchUserDTO);

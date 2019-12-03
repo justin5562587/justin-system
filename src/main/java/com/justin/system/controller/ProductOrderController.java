@@ -38,18 +38,20 @@ public class ProductOrderController {
         return productOrderService.createProductOrder(params, token);
     }
 
+    // 只有管理员可以条处理
     @PostMapping("/process")
-    public ResponseWrapper processProductOrder() {
-        return productOrderService.changeProductOrderStatus();
+    public ResponseWrapper processProductOrder(@RequestHeader("Authorization") String token) {
+        return productOrderService.changeProductOrderStatus(token);
     }
 
+    // 只有用户可以取消
     @PostMapping("/cancel")
-    public ResponseWrapper cancelProducerOrder() {
-        return productOrderService.changeProductOrderStatus();
+    public ResponseWrapper cancelProducerOrder(@RequestHeader("Authorization") String token) {
+        return productOrderService.changeProductOrderStatus(token);
     }
 
     @PostMapping("/finish")
-    public ResponseWrapper finishProductOrder() {
-        return productOrderService.changeProductOrderStatus();
+    public ResponseWrapper finishProductOrder(@RequestHeader("Authorization") String token) {
+        return productOrderService.changeProductOrderStatus(token);
     }
 }
