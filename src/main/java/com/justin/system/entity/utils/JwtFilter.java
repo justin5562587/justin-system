@@ -57,9 +57,9 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         this.getSubject(request, response).login(token);
         // 绑定上下文
-        String username = JwtUtil.getClaim(authorization, SystemConstant.USER_NAME);
-        String email = JwtUtil.getClaim(authorization, SystemConstant.USER_EMAIL);
-        String userId = JwtUtil.getClaim(authorization, SystemConstant.USER_ID);
+        String username = JwtUtil.getClaim(authorization, SystemConstant.USER_NAME).asString();
+        String email = JwtUtil.getClaim(authorization, SystemConstant.USER_EMAIL).asString();
+        String userId = JwtUtil.getClaim(authorization, SystemConstant.USER_ID).asString();
         return false;
     }
 

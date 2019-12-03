@@ -9,7 +9,6 @@ public class ProductOrder {
     private Long createTime;
     private Long updateTime;
     private String status;
-    private Integer orderPrice;
     private Long buyerId;
     private Long handlerId;
     private Long[] productIds;

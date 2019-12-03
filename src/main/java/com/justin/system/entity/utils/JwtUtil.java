@@ -56,12 +56,12 @@ public class JwtUtil {
     }
 
     // 获取token中无须secret也可以解密的信息
-    public static String getClaim(String token, String claimName) {
+    public static Claim getClaim(String token, String claimName) {
         try {
             DecodedJWT decodedJWT = JWT.decode(token);
-            return decodedJWT.getClaim(claimName).asString();
+            return decodedJWT.getClaim(claimName);
         } catch (JWTDecodeException exception) {
-            return "解密Token中的公共信息出现JWTDecodeException异常" + exception.toString();
+            throw new RuntimeException(exception.getCause());
         }
     }
 }
