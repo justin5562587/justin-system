@@ -11,7 +11,7 @@ public interface ProductOrderMapper {
 
     @Insert("insert into product_order_table(create_time, update_time, status, buyer_id) " +
             "values(#{createTime}, #{updateTime}, #{status}, #{buyerId})")
-    void createProductOrder(ProductOrder productOrder);
+    int createProductOrder(ProductOrder productOrder);
 
     @Insert("<script>" +
             "insert into product_order_related_table (order_id, product_id) values "
