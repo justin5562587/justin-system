@@ -50,11 +50,10 @@ public class ProductOrderService {
 
         // 插入product_order数据
         productOrderMapper.createProductOrder(productOrder);
-        System.out.println(id);
         // 插入product_order_related关联数据
-//        productOrderMapper.createProductOrderRelated(newProductOrder.getId(), params.getProductIds());
+        productOrderMapper.createProductOrderRelated(productOrder.getId(), params.getProductIds());
 
-        return ResponseWrapper.success("111");
+        return ResponseWrapper.success("Create ProductOrder Successfully");
     }
 
     // todo 后续需要修改为非物理删除，并且删除关联表的数据
