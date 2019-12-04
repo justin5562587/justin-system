@@ -49,7 +49,7 @@ public class ProductOrderService {
         productOrder.setUpdateTime(currentTimeMillis);
 
         // 插入product_order数据
-        Long id = productOrderMapper.createProductOrder(productOrder);
+        productOrderMapper.createProductOrder(productOrder);
         System.out.println(id);
         // 插入product_order_related关联数据
 //        productOrderMapper.createProductOrderRelated(newProductOrder.getId(), params.getProductIds());

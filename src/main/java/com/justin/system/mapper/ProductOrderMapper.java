@@ -11,20 +11,20 @@ public interface ProductOrderMapper {
 
     @Insert("insert into product_order_table(create_time, update_time, status, buyer_id) " +
             "values(#{createTime}, #{updateTime}, #{status}, #{buyerId})")
-    int createProductOrder(ProductOrder productOrder);
+    Long createProductOrder(ProductOrder productOrder);
 
     @Insert("<script>" +
             "insert into product_order_related_table (order_id, product_id) values "
-            + "<foreach collection='productIds' item='productId' open='(' separator=',' close=')'>"
-            + "(#{productOrderId}, #{productId}),"
+            + "<foreach collection='productIds' item='productId' separator=','>"
+            + "(#{productOrderId}, #{productId})"
             + "</foreach>"
             + "</script>")
     void createProductOrderRelated(Long productOrderId, Long[] productIds);
 
     @Select("select * from product_order_table where id=#{id}")
     @Results({
-        @Result(column="create_time", property="createTime", jdbcType= JdbcType.BIGINT),
-        @Result(column="update_time", property="updateTime", jdbcType= JdbcType.BIGINT),
+            @Result(property = "createTime", column = "create_time"),
+            @Result(property = "updateTime", column = "update_time"),
     })
     ProductOrder getProductOrderById(Long id);
 
