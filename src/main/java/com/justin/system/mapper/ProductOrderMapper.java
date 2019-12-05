@@ -25,14 +25,20 @@ public interface ProductOrderMapper {
     @Results({
             @Result(property = "createTime", column = "create_time"),
             @Result(property = "updateTime", column = "update_time"),
+            @Result(property = "buyerId", column = "buyer_id"),
+            @Result(property = "handleId", column = "handler_id"),
     })
     ProductOrder getProductOrderById(Long id);
 
-    @Select("Select * from product_order_table where order_id=#{productOrderId}")
+    @Select("Select * from product_order_related_table where order_id=#{productOrderId}")
+    @Results({
+            @Result(property = "productOrderId", column = "order_id"),
+            @Result(property = "productId", column = "product_id"),
+    })
     List<ProductOrderRelated> getProductOrderRelatedLists(Long productOrderId);
 
     @Select("select * from product_order_table limit #{offset}, #{pageSize}")
-    List<ProductOrder> getProductOrderList(int offset, int pageSize);
+    List<ProductOrder> getProductOrderList(@Param("offset") int offset, @Param("pageSize") int pageSize);
 
     @Update("update product_order_table set status=#{status} handler_id=#{handlerId} update_time=#{updateTime} where id=#{id}")
     void changeProductOrderStatus(String status, Long handlerId, Long updateTime, Long id);
@@ -40,6 +46,7 @@ public interface ProductOrderMapper {
     @Update("update product_order_table set deleted=1 where id=#{id}")
     void deleteProductOrder(Long id);
 
-    @Delete("drop from product_order_table where id=#{id}")
-    void deleteProductOrderPhysical(Long id);
+    @Update("update product_order_table_related set deleted=1 where order_id=#{orderId}")
+    void deleteProductOrderRelated(Long orderId);
+
 }

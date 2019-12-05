@@ -51,9 +51,9 @@ public class ProductOrderService {
         return ResponseWrapper.success("Create ProductOrder Successfully");
     }
 
-    // todo 后续需要修改为非物理删除，并且删除关联表的数据
     public ResponseWrapper deleteProductOrder(Long id) {
-        productOrderMapper.deleteProductOrderPhysical(id);
+        productOrderMapper.deleteProductOrder(id);
+        productOrderMapper.deleteProductOrderRelated(id);
         return ResponseWrapper.success("Delete ProductOrder Successfully");
     }
 
@@ -64,15 +64,17 @@ public class ProductOrderService {
         }
 
         Long productOrderId = productOrder.getId();
+
         List<ProductOrderRelated> productOrderRelateds = productOrderMapper.getProductOrderRelatedLists(productOrderId);
         List<Product> products = new ArrayList<>();
         for (ProductOrderRelated productOrderRelated : productOrderRelateds) {
             Product product = productMapper.getProductById(productOrderRelated.getProductId());
             products.add(product);
         }
+
         Map<String, Object> result = new HashMap<>();
-        result.put("products", products);
         result.put("orderDetail", productOrder);
+        result.put("products", products);
 
         return ResponseWrapper.success(result);
     }
