@@ -2,6 +2,7 @@ package com.justin.system.controller;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateBlogDTO;
+import com.justin.system.entity.request.ReqUpdateBlogDTO;
 import com.justin.system.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,27 +14,30 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
-    @GetMapping("/list")
-    public ResponseWrapper getBlogList(
-            @RequestParam int page,
-            @RequestParam int size
-    ) {
-        return blogService.getBlogList(page, size);
+    @GetMapping("/")
+    public ResponseWrapper getBlog(@RequestParam Long id) {
+        return blogService.getBlog(id);
     }
 
-    @GetMapping("/")
-    public ResponseWrapper getBlogDetail(@RequestParam Long id) {
-        return blogService.getBlogDetail(id);
+    @GetMapping("/list")
+    public ResponseWrapper getBlogList(
+            @Request
+    ) {
+        return blogService.getBlogList();
+    }
+
+    @PostMapping("/create")
+    public ResponseWrapper createBlog(@RequestBody ReqCreateBlogDTO reqCreateBlogDTO) {
+        return blogService.createBlog(reqCreateBlogDTO);
+    }
+
+    @PutMapping("/update")
+    public ResponseWrapper updateBlog(@RequestBody ReqUpdateBlogDTO reqUpdateBlogDTO) {
+        return blogService.updateBlog(reqUpdateBlogDTO);
     }
 
     @PostMapping("/")
-    public ResponseWrapper createBlog(@RequestBody ReqCreateBlogDTO params) {
-        return blogService.createBlog(params);
-    }
+    public 
 
-    @DeleteMapping("/")
-    public ResponseWrapper deleteBlog(@RequestParam Long id) {
-        return blogService.deleteBlog(id);
-    }
 
 }

@@ -1,24 +1,31 @@
 package com.justin.system.mapper;
 
+import com.justin.system.entity.request.ReqCreateBlogDTO;
+import com.justin.system.entity.request.ReqUpdateBlogDTO;
+import com.justin.system.entity.search.SearchBlogDTO;
 import com.justin.system.models.Blog;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
 public interface BlogMapper {
 
-    @Select("SELECT * FROM blog_table;")
-    List<Blog> getBlogList();
+    @Insert("")
+    int createBlog(ReqCreateBlogDTO reqCreateBlogDTO);
 
-    @Select("SELECT * FROM blog_table WHERE id=#{id};")
-    Blog findBlogById(Long id);
+    @Update("")
+    int updateBlog(ReqUpdateBlogDTO reqUpdateBlogDTO);
 
-    @Delete("DELETE FROM blog_table WHERE id=#{id};")
-    void deleteBLogById(Long id);
+    @Select("select * from blog_table where id=#{id}")
+    Blog getBlogById(Long id);
 
-    @Insert("INSERT INTO blog_table (title, content, description, img_url, label_name, create_time, update_time) " +
-            "VALUES(#{title}, #{content}, #{description}, #{imgUrl}, #{labelName}, #{createTime}, #{updateTime});")
-    void createBlog(Blog blog);
+    @Select("")
+    List<Blog> getBlogList(SearchBlogDTO searchBlogDTO);
+
+    @Update("update from blog_table set deleted=1 where id=#{id}")
+    int deleteBlog(Long id);
+
+
 }

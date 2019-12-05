@@ -2,43 +2,44 @@ package com.justin.system.service;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateBlogDTO;
+import com.justin.system.entity.request.ReqUpdateBlogDTO;
+import com.justin.system.entity.search.SearchBlogDTO;
+import com.justin.system.mapper.BlogMapper;
 import com.justin.system.models.Blog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BlogService {
 
-    public ResponseWrapper getBlogList(int page, int size) {
-        return ResponseWrapper.success(null);
+    @Autowired
+    private BlogMapper blogMapper;
+
+    public ResponseWrapper getBlog(Long id) {
+        Blog blog = blogMapper.getBlogById(id);
+        return blog == null ?
+                ResponseWrapper.fail("Blog Not Found") :
+                ResponseWrapper.success(blog);
     }
 
-    public ResponseWrapper getBlogDetail(Long id) {
+    public ResponseWrapper getBlogList(SearchBlogDTO searchBlogDTO) {
+        List<Blog> blogs = blogMapper.getBlogList(searchBlogDTO);
+        return ResponseWrapper.success(blogs);
+    }
+
+    public ResponseWrapper createBlog(ReqCreateBlogDTO reqCreateBlogDTO) {
+//        blogMapper.createBlog(reqCreateBlogDTO);
         return null;
     }
 
-    public ResponseWrapper createBlog(ReqCreateBlogDTO params) {
-        try {
-            Blog newBlog = new Blog();
-            newBlog.setTitle(params.getTitle());
-            newBlog.setContent(params.getContent());
-            newBlog.setDescription(params.getDescription());
-            newBlog.setLabelName(params.getLabelName());
-            newBlog.setImgUrl(params.getImgUrl());
-
-            // handle time
-            Long currentTime = System.currentTimeMillis();
-            newBlog.setCreateTime(currentTime);
-            newBlog.setUpdateTime(currentTime);
-
-//            Blog addBlog = blogRepository.save(newBlog);
-
-            return ResponseWrapper.success(null);
-        } catch (Exception e) {
-            return ResponseWrapper.error(e.toString());
-        }
+    public ResponseWrapper updateBlog(ReqUpdateBlogDTO reqUpdateBlogDTO) {
+        return null;
     }
 
     public ResponseWrapper deleteBlog(Long id) {
+        blogMapper.deleteBlog(id);
         return null;
     }
 }
