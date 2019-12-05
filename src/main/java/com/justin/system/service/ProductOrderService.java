@@ -14,10 +14,7 @@ import com.justin.system.models.ProductOrderRelated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ProductOrderService {
@@ -38,9 +35,6 @@ public class ProductOrderService {
         Long userId = getUserIdFromToken(token);
         productOrder.setBuyerId(userId);
 
-        Long[] productIds = params.getProductIds();
-        productOrder.setProductIds(productIds);
-
         productOrder.setStatus(ProductOrderEnum.INITIAL.toString());
 
         // handle time
@@ -50,6 +44,7 @@ public class ProductOrderService {
 
         // 插入product_order数据
         productOrderMapper.createProductOrder(productOrder);
+
         // 插入product_order_related关联数据
         productOrderMapper.createProductOrderRelated(productOrder.getId(), params.getProductIds());
 

@@ -3,7 +3,6 @@ package com.justin.system.mapper;
 import com.justin.system.models.ProductOrder;
 import com.justin.system.models.ProductOrderRelated;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public interface ProductOrderMapper {
             + "(#{productOrderId}, #{productId})"
             + "</foreach>"
             + "</script>")
-    void createProductOrderRelated(Long productOrderId, Long[] productIds);
+    void createProductOrderRelated(@Param("productOrderId") Long productOrderId, @Param("productIds") Long[] productIds);
 
     @Select("select * from product_order_table where id=#{id}")
     @Results({
