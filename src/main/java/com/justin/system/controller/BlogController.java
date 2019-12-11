@@ -27,8 +27,11 @@ public class BlogController {
     }
 
     @PostMapping("/create")
-    public ResponseWrapper createBlog(@RequestBody ReqCreateBlogDTO reqCreateBlogDTO) {
-        return blogService.createBlog(reqCreateBlogDTO);
+    public ResponseWrapper createBlog(
+            @RequestHeader("Authorization") String token,
+            @RequestBody ReqCreateBlogDTO reqCreateBlogDTO
+    ) {
+        return blogService.createBlog(reqCreateBlogDTO, token);
     }
 
     @PutMapping("/update")
@@ -40,6 +43,5 @@ public class BlogController {
     public ResponseWrapper deleteBlog(@RequestParam Long id) {
         return blogService.deleteBlog(id);
     }
-
 
 }
