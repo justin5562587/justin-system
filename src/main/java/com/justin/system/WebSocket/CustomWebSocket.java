@@ -24,6 +24,10 @@ public class CustomWebSocket {
      */
     private static CopyOnWriteArraySet<CustomWebSocket> webSocketSet = new CopyOnWriteArraySet<CustomWebSocket>();
 
+    public static CopyOnWriteArraySet<CustomWebSocket> getWebSocketSet() {
+        return webSocketSet;
+    }
+
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
      */
@@ -31,11 +35,11 @@ public class CustomWebSocket {
 
     private final Logger log = LoggerFactory.getLogger(CustomWebSocket.class);
 
-    public void increaseOnlineCount() {
+    public synchronized void increaseOnlineCount() {
         CustomWebSocket.onlineCount += 1;
     }
 
-    public void decreaseOnlineCount() {
+    public synchronized void decreaseOnlineCount() {
         CustomWebSocket.onlineCount -= 1;
     }
 
@@ -48,7 +52,7 @@ public class CustomWebSocket {
         increaseOnlineCount();
         log.info("新连接接入，当前在线人数有" + onlineCount);
         try {
-            sendMessage("");
+            sendMessage("连接已建立成功.");
         } catch (IOException e) {
             e.printStackTrace();
         }
