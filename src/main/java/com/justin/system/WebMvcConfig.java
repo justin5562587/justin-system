@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import java.util.ArrayList;
 
@@ -23,5 +24,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         ArrayList<String> excludedPath = new ArrayList<>();
         excludedPath.add("/login");
         interceptorRegistration.excludePathPatterns(excludedPath);
+    }
+
+    @Bean
+    public ServerEndpointExporter serverEndpointConfig() {
+        return new ServerEndpointExporter();
     }
 }
