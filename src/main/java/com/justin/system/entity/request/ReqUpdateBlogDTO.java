@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ReqUpdateBlogDTO {
 
-    private Long creatorId;
+    private Long id;
     private Long updateTime;
     private String title;
     private String subtitle;
