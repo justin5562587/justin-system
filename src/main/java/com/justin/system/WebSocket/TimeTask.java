@@ -19,7 +19,7 @@ public class TimeTask {
 
     @Scheduled(cron = "0/10 * * * * ?")
     public void test() {
-        System.out.println("定时任务开启");
+        logger.info("定时任务执行中...");
         CopyOnWriteArraySet<CustomWebSocket> webSocketSet = CustomWebSocket.getWebSocketSet();
         int i = 0;
         webSocketSet.forEach(item -> {

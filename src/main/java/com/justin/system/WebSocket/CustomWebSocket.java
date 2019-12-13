@@ -1,7 +1,9 @@
 package com.justin.system.WebSocket;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
