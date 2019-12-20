@@ -13,6 +13,7 @@ import java.util.ArrayList;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    // 设置token拦截器
     @Bean
     TokenInterceptor tokenInterceptor() {
         return new TokenInterceptor();
@@ -26,6 +27,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         interceptorRegistration.excludePathPatterns(excludedPath);
     }
 
+    // 设置websocket端口监听器
     @Bean
     public ServerEndpointExporter serverEndpointConfig() {
         return new ServerEndpointExporter();

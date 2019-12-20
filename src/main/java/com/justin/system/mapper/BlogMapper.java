@@ -35,7 +35,16 @@ public interface BlogMapper {
     @Select("select * from blog_table where id=#{id}")
     Blog getBlogById(Long id);
 
-    @Select("select * from blog_table where")
+    @Select("<script> " +
+            "select * from blog_table where 1=1 "
+            + "</if>"
+            + "<if test='createTime != null'>"
+            + "and createTime=#{createTime} "
+            + "</if>"
+            + "<if test='createTime != null'>"
+            + "and create_time=#{createTime} "
+            + "</if>"
+            + "</script>")
     List<Blog> getBlogList(SearchBlogDTO searchBlogDTO);
 
     @Update("update from blog_table set deleted=1 where id=#{id}")

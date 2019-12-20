@@ -22,7 +22,7 @@ public class BlogController {
     }
 
     @GetMapping("/list")
-    public ResponseWrapper getBlogList(@RequestParam SearchBlogDTO searchBlogDTO) {
+    public ResponseWrapper getBlogList(SearchBlogDTO searchBlogDTO) {
         return blogService.getBlogList(searchBlogDTO);
     }
 
@@ -43,5 +43,6 @@ public class BlogController {
     public ResponseWrapper deleteBlog(@RequestParam Long id) {
         return blogService.deleteBlog(id);
     }
+
 
 }
