@@ -2,6 +2,8 @@ package com.justin.system.models;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Comment {
 
@@ -14,4 +16,5 @@ public class Comment {
     private int deleted;
     private String type;
     private String content;
+    private List<Comment> childComments;
 }

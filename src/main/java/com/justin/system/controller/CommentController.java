@@ -14,18 +14,21 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("/list")
-    public ResponseWrapper getCommentListForUser(@RequestParam Long id) {
-        return commentService.getCommentList(id);
+    public ResponseWrapper getUserCommentList(@RequestParam Long userId) {
+        return commentService.getUserCommentList(userId);
     }
 
     @PostMapping("/create")
-    public ResponseWrapper createComment(@RequestBody ReqCreateCommentDTO reqCreateCommentDTO) {
-        return commentService.createComment(reqCreateCommentDTO);
+    public ResponseWrapper createComment(
+            @RequestHeader("Authorization") String token,
+            @RequestBody ReqCreateCommentDTO reqCreateCommentDTO
+    ) {
+        return commentService.createComment(reqCreateCommentDTO, token);
     }
 
     @PostMapping("/star")
-    public ResponseWrapper starComment(Long id) {
-        return commentService.starComment(id);
+    public ResponseWrapper starComment(Long id, int isCancel) {
+        return commentService.starComment(id, isCancel);
     }
 
     @DeleteMapping("/delete")
