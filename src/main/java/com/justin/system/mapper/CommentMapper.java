@@ -28,5 +28,5 @@ public interface CommentMapper {
     void deleteComment(Long id, Long deleteTime);
 
     @Update("update comment_table set star_count=#{starCount} where id=#{id}")
-    void starComment(int starCount, Long id);
+    void starComment(@Param("id") Long id, @Param("starCount") int starCount);
 }
