@@ -23,6 +23,7 @@ public class CommentService {
     }
 
     // 根据评论列表 递归获取所有子评论
+    // todo 并且删除所有delete=1的评论
     private List<Comment> getCommentChildList(List<Comment> commentList) {
         for (Comment c : commentList) {
             List<Comment> childCommentList = commentMapper.getCommentListByParentId(c.getId());
