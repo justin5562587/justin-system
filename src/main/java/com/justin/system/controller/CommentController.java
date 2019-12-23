@@ -2,6 +2,7 @@ package com.justin.system.controller;
 
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.request.ReqCreateCommentDTO;
+import com.justin.system.entity.request.ReqUpdateCommentDTO;
 import com.justin.system.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,14 +28,13 @@ public class CommentController {
     }
 
     @PostMapping("/star")
-    public ResponseWrapper starComment(Long id, int isCancel) {
-        return commentService.starComment(id, isCancel);
+    public ResponseWrapper starComment(@RequestBody ReqUpdateCommentDTO reqUpdateCommentDTO) {
+        return commentService.starComment(reqUpdateCommentDTO.getId(), reqUpdateCommentDTO.getIsCancel());
     }
 
     @DeleteMapping("/delete")
     public ResponseWrapper deleteComment(Long id) {
         return commentService.deleteComment(id);
     }
-
 
 }

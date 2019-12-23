@@ -28,8 +28,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     // 设置websocket端口监听器
-    @Bean
-    public ServerEndpointExporter serverEndpointConfig() {
-        return new ServerEndpointExporter();
-    }
+//    @Bean
+//    public ServerEndpointExporter serverEndpointConfig() {
+//        return new ServerEndpointExporter();
+//    }
 }

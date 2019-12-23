@@ -2,7 +2,6 @@ package com.justin.system.service;
 
 import com.justin.system.entity.basic.PageEntity;
 import com.justin.system.entity.basic.ResponseWrapper;
-import com.justin.system.entity.enums.ErrorTypeEnum;
 import com.justin.system.entity.request.ReqCreateUserDTO;
 import com.justin.system.entity.request.ReqUpdateUserDTO;
 import com.justin.system.entity.search.SearchUserDTO;

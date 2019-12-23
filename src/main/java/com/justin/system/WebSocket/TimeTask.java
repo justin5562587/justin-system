@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-@EnableScheduling
-@Component
+//@EnableScheduling
+//@Component
 public class TimeTask {
 
     // 代码涞源 https://www.jianshu.com/p/62132f605669

@@ -69,10 +69,10 @@ public class CommentService {
         if (comment != null) {
             int oldStarCount = comment.getStarCount();
 
-            int finalStarCount = isCancel != 0 ? oldStarCount + 1 : oldStarCount - 1;
+            int finalStarCount = isCancel == 0 ? oldStarCount + 1 : oldStarCount - 1;
             commentMapper.starComment(finalStarCount, id);
 
-            String message = isCancel != 0 ? "Star Comment Successfully" : "Cancel Star Comment Successfully";
+            String message = isCancel == 0 ? "Star Comment Successfully" : "Cancel Star Comment Successfully";
             return ResponseWrapper.success(message);
         }
         return ResponseWrapper.fail("Comment Can Not Found");

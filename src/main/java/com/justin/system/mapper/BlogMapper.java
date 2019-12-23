@@ -37,7 +37,6 @@ public interface BlogMapper {
 
     @Select("<script> " +
             "select * from blog_table where 1=1 "
-            + "</if>"
             + "<if test='createTime != null'>"
             + "and createTime=#{createTime} "
             + "</if>"
