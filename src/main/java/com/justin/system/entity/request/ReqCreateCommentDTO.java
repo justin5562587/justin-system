@@ -11,5 +11,6 @@ public class ReqCreateCommentDTO {
     private int starCount;
     private int deleted;
     private String type;
+    private Long referId;
     private String content;
 }

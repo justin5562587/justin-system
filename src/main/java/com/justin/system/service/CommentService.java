@@ -45,7 +45,11 @@ public class CommentService {
         Comment comment = new Comment();
 
         comment.setContent(reqCreateCommentDTO.getContent());
-        comment.setType(reqCreateCommentDTO.getType());
+
+        // 当前只开放在Blog下评论
+        comment.setType("BLOG");
+        comment.setReferId(reqCreateCommentDTO.getReferId());
+
         comment.setCreateTime(System.currentTimeMillis());
 
         Long userId = getUserIdFromToken(token);

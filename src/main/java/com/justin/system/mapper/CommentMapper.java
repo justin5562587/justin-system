@@ -18,8 +18,8 @@ public interface CommentMapper {
     @Select("select * from comment_table where id=#{id}")
     Comment getCommentById(Long id);
 
-    @Insert("insert into comment_table(create_time, creator_id, parent_id, content, type, star_count}) " +
-            "values(#{createTime}, #{creatorId}, #{parentId}, #{content}, #{type}, 0})")
+    @Insert("insert into comment_table(create_time, creator_id, refer_id, parent_id, content, type}) " +
+            "values(#{createTime}, #{creatorId}, #{parentId}, #{referId}, #{content}, #{type})")
     void save(Comment comment);
 
     @Update("update comment_table set deleted=1, delete_time=#{deleteTime} where id=#{id}")
