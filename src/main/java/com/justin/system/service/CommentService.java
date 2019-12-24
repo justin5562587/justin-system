@@ -24,11 +24,11 @@ public class CommentService {
         return JwtUtil.getClaim(token, SystemConstant.USER_ID).asLong();
     }
 
-    // 过滤已经删除的评论和有parentId的评论
+    // 过滤已删除的评论 + 设置hasChild
     private List<Comment> filterCommentList(List<Comment> commentList) {
         List<Comment> result = new ArrayList<>();
         for (Comment c : commentList) {
-            if (c.getDeleted() == 0 && c.getParentId() == null) {
+            if (c.getDeleted() == 0) {
                 result.add(c);
             }
         }
