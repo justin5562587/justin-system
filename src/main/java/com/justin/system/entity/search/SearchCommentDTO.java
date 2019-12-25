@@ -1,19 +1,15 @@
 package com.justin.system.entity.search;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class SearchCommentDTO {
 
-    @Value()
-    private int pageNumber;
+    private int pageNumber = 0;
 
-    private int pageSize;
+    private int pageSize = 20;
+
+    private int offset = pageSize * (pageNumber + 1);
 
     // createTime时间的起始
     private Long startTime;
@@ -23,12 +19,8 @@ public class SearchCommentDTO {
     private Long userId;
 
     // 用于作为评论的parentId查找子级评论
-    private Long commentId;
+    private Long parentId;
 
     // 获取某种type下的评论
     private String type;
-
-    public int getPageSize() {
-        return pageSize == 0?20:pageSize;
-    }
 }

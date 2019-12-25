@@ -40,23 +40,9 @@ public class CommentService {
     }
 
     public ResponseWrapper getCommentList(SearchCommentDTO searchCommentDTO) {
-        // 优先根据userId进行筛选
-        Long userId = searchCommentDTO.getUserId();
-        if (userId != null) {
-            List<Comment> commentList = commentMapper.getCommentListByUserId(userId);
-            List<Comment> result = filterCommentList(commentList);
-            return ResponseWrapper.success(result);
-        }
-
-        // 没有userId根据commentId筛选
-        Long commentId = searchCommentDTO.getCommentId();
-        if (commentId != null) {
-            List<Comment> commentList = commentMapper.getCommentListByParentId(commentId);
-            List<Comment> result = filterCommentList(commentList);
-            return ResponseWrapper.success(result);
-        }
-
-        return ResponseWrapper.fail("Need Search Params");
+        List<Comment> commentList = commentMapper.getCommentList(searchCommentDTO);
+        List<Comment> result = filterCommentList(commentList);
+        return ResponseWrapper.success(result);
     }
 
     public ResponseWrapper createComment(ReqCreateCommentDTO reqCreateCommentDTO, String token) {
