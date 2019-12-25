@@ -12,22 +12,23 @@ public interface CommentMapper {
     List<Comment> getCommentListByParentId(Long parentId);
 
     @Select("<script> "
-            + "select * from comment_table "
+            + "select * from comment_table where 1=1 "
+            + "<if test='startTime != null'>"
+            + "and create_time <![CDATA[ >= ]]> #{startTime} "
+            + "</if>"
+            + "<if test='endTime != null'>"
+            + "and create_time <![CDATA[ <= ]]> #{endTime} "
+            + "</if>"
             + "<if test='userId != null'>"
             + "and creator_id=#{userId} "
             + "</if>"
             + "<if test='parentId != null'>"
-            + ",and parent_id=#{parentId} "
+            + "and parent_id=#{parentId} "
             + "</if>"
             + "<if test='type != null'>"
-            + ",and type=#{type} "
+            + "and type=#{type} "
             + "</if>"
-            + "<if test='startTime != null and endTime != null'>"
-            + "where create_time <![CDATA[ >= ]]> #{startTime} and <![CDATA[ <= ]]> #{endTime}> "
-            + "</if>"
-            + "<if>"
             + "limit #{offset}, #{pageSize}"
-            + "</if>"
             + " </script>")
     List<Comment> getCommentList(SearchCommentDTO searchCommentDTO);
 

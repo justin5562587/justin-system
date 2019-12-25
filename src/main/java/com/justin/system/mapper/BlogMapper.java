@@ -40,9 +40,6 @@ public interface BlogMapper {
             + "<if test='createTime != null'>"
             + "and createTime=#{createTime} "
             + "</if>"
-            + "<if test='createTime != null'>"
-            + "and create_time=#{createTime} "
-            + "</if>"
             + "</script>")
     List<Blog> getBlogList(SearchBlogDTO searchBlogDTO);
 

@@ -40,7 +40,9 @@ public class CommentService {
     }
 
     public ResponseWrapper getCommentList(SearchCommentDTO searchCommentDTO) {
+        System.out.println(searchCommentDTO.toString());
         List<Comment> commentList = commentMapper.getCommentList(searchCommentDTO);
+        System.out.println(commentList);
         List<Comment> result = filterCommentList(commentList);
         return ResponseWrapper.success(result);
     }

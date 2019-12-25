@@ -9,7 +9,7 @@ public class SearchCommentDTO {
 
     private int pageSize = 20;
 
-    private int offset = pageSize * (pageNumber + 1);
+    private int offset = pageSize * pageNumber;
 
     // createTime时间的起始
     private Long startTime;
