@@ -1,5 +1,6 @@
 package com.justin.system.service;
 
+import com.justin.system.entity.basic.PageEntity;
 import com.justin.system.entity.basic.ResponseWrapper;
 import com.justin.system.entity.basic.SystemConstant;
 import com.justin.system.entity.request.ReqCreateBlogDTO;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BlogService {
@@ -31,25 +33,24 @@ public class BlogService {
     }
 
     public ResponseWrapper getBlogList(SearchBlogDTO searchBlogDTO) {
-        List<Blog> blogs = blogMapper.getBlogList(searchBlogDTO);
-        return ResponseWrapper.success(blogs);
+        List<Blog> blogList = blogMapper.getBlogList(searchBlogDTO);
+        Map<String, Object> result = PageEntity.renderPageableRet(
+                searchBlogDTO.getPageNumber(),
+                searchBlogDTO.getPageSize(),
+                blogList
+        );
+        return ResponseWrapper.success(result);
     }
 
     public ResponseWrapper createBlog(ReqCreateBlogDTO reqCreateBlogDTO, String token) {
         Blog blog = new Blog();
 
-        Long currentTime = System.currentTimeMillis();
-        blog.setCreateTime(currentTime);
-        blog.setUpdateTime(currentTime);
-
+        blog.setCreateTime(System.currentTimeMillis());
         blog.setContent(reqCreateBlogDTO.getContent());
         blog.setTitle(reqCreateBlogDTO.getTitle());
         blog.setSubtitle(reqCreateBlogDTO.getSubtitle());
-
         blog.setLabel(reqCreateBlogDTO.getLabel());
-
-        Long userId = getUserIdFromToken(token);
-        blog.setCreatorId(userId);
+        blog.setCreatorId(getUserIdFromToken(token));
 
         blogMapper.createBlog(blog);
         return ResponseWrapper.success("Create Blog Successfully");
@@ -57,8 +58,8 @@ public class BlogService {
 
     public ResponseWrapper updateBlog(ReqUpdateBlogDTO reqUpdateBlogDTO) {
         Blog blog = new Blog();
-        blog.setId(reqUpdateBlogDTO.getId());
 
+        blog.setId(reqUpdateBlogDTO.getId());
         blog.setUpdateTime(System.currentTimeMillis());
         blog.setTitle(reqUpdateBlogDTO.getTitle());
         blog.setSubtitle(reqUpdateBlogDTO.getSubtitle());

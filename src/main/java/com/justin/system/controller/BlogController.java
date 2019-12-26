@@ -5,7 +5,6 @@ import com.justin.system.entity.request.ReqCreateBlogDTO;
 import com.justin.system.entity.request.ReqUpdateBlogDTO;
 import com.justin.system.entity.search.SearchBlogDTO;
 import com.justin.system.service.BlogService;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,7 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
-    @GetMapping("/")
+    @GetMapping("/detail")
     public ResponseWrapper getBlog(@RequestParam Long id) {
         return blogService.getBlog(id);
     }
@@ -40,7 +39,7 @@ public class BlogController {
         return blogService.updateBlog(reqUpdateBlogDTO);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/delete")
     public ResponseWrapper deleteBlog(@RequestParam Long id) {
         return blogService.deleteBlog(id);
     }

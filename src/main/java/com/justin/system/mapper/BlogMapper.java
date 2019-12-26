@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface BlogMapper {
 
-    @Insert("insert into blog_table(create_time, update_time, title, subtitle, label, creator_id) " +
-            "values(#{createTime}, #{updateTime}, #{title}, #{subtitle}, #{label}, #{creatorId})")
+    @Insert("insert into blog_table(create_time, title, subtitle, content, label, creator_id) " +
+            "values(#{createTime}, #{title}, #{subtitle}, #{content}, #{label}, #{creatorId})")
     int createBlog(Blog blog);
 
     @Update("<script> " +
@@ -32,19 +32,29 @@ public interface BlogMapper {
             + "</script>")
     int updateBlog(Blog blog);
 
-    @Select("select * from blog_table where id=#{id}")
+    @Select("select * from blog_table where id=#{id} limit 1")
     Blog getBlogById(Long id);
 
     @Select("<script> " +
             "select * from blog_table where 1=1 "
-            + "<if test='createTime != null'>"
-            + "and createTime=#{createTime} "
+            + "and deleted=0 "
+            + "<if test='label != null'>"
+            + "and label=#{label} "
             + "</if>"
+            + "<if test='creatorId != null'>"
+            + "and creator_id=#{creatorId} "
+            + "</if>"
+            + "<if test='startTime != null'>"
+            + "and create_time <![CDATA[ >= ]]> #{startTime} "
+            + "</if>"
+            + "<if test='endTime != null'>"
+            + "and create_time <![CDATA[ <= ]]> #{endTime} "
+            + "</if>"
+            + "limit #{offset} #{pageSize}"
             + "</script>")
     List<Blog> getBlogList(SearchBlogDTO searchBlogDTO);
 
-    @Update("update from blog_table set deleted=1 where id=#{id}")
+    @Update("update blog_table set deleted=1 where id=#{id}")
     int deleteBlog(Long id);
-
 
 }
