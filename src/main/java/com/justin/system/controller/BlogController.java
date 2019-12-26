@@ -23,6 +23,7 @@ public class BlogController {
 
     @GetMapping("/list")
     public ResponseWrapper getBlogList(SearchBlogDTO searchBlogDTO) {
+        System.out.println(searchBlogDTO);
         return blogService.getBlogList(searchBlogDTO);
     }
 

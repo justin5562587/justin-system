@@ -3,6 +3,7 @@ package com.justin.system;
 import com.justin.system.entity.utils.TokenInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -32,4 +33,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //    public ServerEndpointExporter serverEndpointConfig() {
 //        return new ServerEndpointExporter();
 //    }
+
+    public void addCorsMappings(CorsRegistry corsRegistry) {
+        corsRegistry.addMapping("/blog/list");
+    }
 }

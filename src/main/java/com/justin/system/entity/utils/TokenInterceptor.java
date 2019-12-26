@@ -2,7 +2,10 @@ package com.justin.system.entity.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.justin.system.entity.basic.ResponseWrapper;
+import com.justin.system.entity.basic.SystemConstant;
+import com.justin.system.entity.search.SearchUserDTO;
 import com.justin.system.mapper.UserMapper;
+import com.justin.system.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -22,17 +25,19 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
     // token拦截器逻辑
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
-//        boolean ret;
-//
+        boolean ret;
+
 //        String token = req.getHeader("Authorization");
 //        if (token == null || token.equals("")) {
 //            ret = false;
 //        } else {
 //            try {
-//                String email = JwtUtil.getClaim(token, SystemConstant.USER_EMAIL);
-//                Optional<User> optionalUser = userRepository.findByEmail(email);
-//                if (optionalUser.isPresent()) {
-//                    JwtUtil.validateToken(token, optionalUser.get());
+//                String email = JwtUtil.getClaim(token, SystemConstant.USER_EMAIL).asString();
+//                SearchUserDTO searchUserDTO = new SearchUserDTO();
+//                searchUserDTO.setEmail(email);
+//                User user = userMapper.getUserByParams(searchUserDTO);
+//                if (user != null) {
+//                    JwtUtil.validateToken(token, user);
 //                    ret = true;
 //                } else {
 //                    throw new RuntimeException("User Not Existed");
@@ -46,7 +51,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
 //            String message = "认证失败";
 //            this.response401(res, message);
 //        }
-
+//
 //        return ret;
         return true;
     }

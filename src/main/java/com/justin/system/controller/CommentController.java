@@ -17,6 +17,7 @@ public class CommentController {
 
     @GetMapping("/list")
     public ResponseWrapper getCommentList(SearchCommentDTO searchCommentDTO) {
+        System.out.println(searchCommentDTO);
         return commentService.getCommentList(searchCommentDTO);
     }
 
