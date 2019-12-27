@@ -15,20 +15,23 @@ public interface BlogMapper {
     int createBlog(Blog blog);
 
     @Update("<script> " +
-            "update product_table set "
+            "update blog_table set "
             + "<if test='title != null'>"
-            + "title = #{title} "
+            + "title=#{title} "
             + "</if>"
             + "<if test='subtitle != null'>"
-            + ",subtitle = #{subtitle} "
+            + ",subtitle=#{subtitle} "
             + "</if>"
             + "<if test='content != null'>"
-            + ",content = #{content} "
+            + ",content=#{content} "
+            + "</if>"
+            + "<if test='label != null'>"
+            + ",label=#{label} "
             + "</if>"
             + "<if test='updateTime != null'>"
-            + ",update_time = #{updateTime} "
+            + ",update_time=#{updateTime} "
             + "</if>"
-            + " where id = #{id}"
+            + " where id=#{id}"
             + "</script>")
     int updateBlog(Blog blog);
 
@@ -36,8 +39,7 @@ public interface BlogMapper {
     Blog getBlogById(Long id);
 
     @Select("<script> " +
-            "select * from blog_table where 1=1 "
-            + "and deleted=0 "
+            "select * from blog_table where 1=1 and deleted=0 "
             + "<if test='label != null'>"
             + "and label=#{label} "
             + "</if>"
@@ -50,7 +52,7 @@ public interface BlogMapper {
             + "<if test='endTime != null'>"
             + "and create_time <![CDATA[ <= ]]> #{endTime} "
             + "</if>"
-            + "limit #{offset} #{pageSize}"
+            + "limit #{offset}, #{pageSize}"
             + "</script>")
     List<Blog> getBlogList(SearchBlogDTO searchBlogDTO);
 

@@ -21,10 +21,6 @@ public class BlogService {
     @Autowired
     private BlogMapper blogMapper;
 
-    private Long getUserIdFromToken(String token) {
-        return JwtUtil.getClaim(token, SystemConstant.USER_ID).asLong();
-    }
-
     public ResponseWrapper getBlog(Long id) {
         Blog blog = blogMapper.getBlogById(id);
         return blog == null ?
@@ -50,7 +46,9 @@ public class BlogService {
         blog.setTitle(reqCreateBlogDTO.getTitle());
         blog.setSubtitle(reqCreateBlogDTO.getSubtitle());
         blog.setLabel(reqCreateBlogDTO.getLabel());
-        blog.setCreatorId(getUserIdFromToken(token));
+
+        Long creatorId = JwtUtil.getClaim(SystemConstant.USER_ID, token).asLong();
+        blog.setCreatorId(creatorId);
 
         blogMapper.createBlog(blog);
         return ResponseWrapper.success("Create Blog Successfully");
