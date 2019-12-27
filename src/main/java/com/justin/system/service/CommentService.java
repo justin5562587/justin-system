@@ -19,11 +19,6 @@ public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
-    // 根据token获取userId
-    private Long getUserIdFromToken(String token) {
-        return JwtUtil.getClaim(token, SystemConstant.USER_ID).asLong();
-    }
-
     // 过滤已删除的评论 + 设置hasChild
     private List<Comment> filterCommentList(List<Comment> commentList) {
         List<Comment> result = new ArrayList<>();
@@ -51,14 +46,11 @@ public class CommentService {
         Comment comment = new Comment();
 
         comment.setContent(reqCreateCommentDTO.getContent());
-
-        // 当前只开放在Blog下评论
-        comment.setType("BLOG");
+        comment.setReferType(reqCreateCommentDTO.getReferType());
         comment.setReferId(reqCreateCommentDTO.getReferId());
-
         comment.setCreateTime(System.currentTimeMillis());
 
-        Long userId = getUserIdFromToken(token);
+        Long userId = JwtUtil.getClaim(SystemConstant.USER_ID, token).asLong();
         comment.setCreatorId(userId);
 
         Long parentId = reqCreateCommentDTO.getParentId();

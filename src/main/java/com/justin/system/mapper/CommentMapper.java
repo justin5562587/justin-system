@@ -25,22 +25,21 @@ public interface CommentMapper {
             + "<if test='parentId != null'>"
             + "and parent_id=#{parentId} "
             + "</if>"
-            + "<if test='type != null'>"
-            + "and type=#{type} "
+            + "<if test='referId != null'>"
+            + "and refer_id=#{referId} "
+            + "</if>"
+            + "<if test='referType != null'>"
+            + "and refer_type=#{referType} "
             + "</if>"
             + "limit #{offset}, #{pageSize}"
             + " </script>")
     List<Comment> getCommentList(SearchCommentDTO searchCommentDTO);
 
     @Select("select * from comment_table where id=#{id}")
-    @Results({
-            @Result(property = "starCount", column = "star_count"),
-            @Result(property = "createTime", column = "create_time"),
-    })
     Comment getCommentById(Long id);
 
-    @Insert("insert into comment_table(create_time, creator_id, refer_id, parent_id, content, type) " +
-            "values(#{createTime}, #{creatorId}, #{referId}, #{parentId}, #{content}, #{type})")
+    @Insert("insert into comment_table(create_time, creator_id, refer_id, refer_type, parent_id, content) " +
+            "values(#{createTime}, #{creatorId}, #{referId}, #{referType}, #{parentId}, #{content})")
     void save(Comment comment);
 
     @Update("update comment_table set deleted=1, delete_time=#{deleteTime} where id=#{id}")

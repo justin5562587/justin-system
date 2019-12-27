@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ReqCreateCommentDTO {
 
-    private String type;
+    private String referType;
     private Long referId;
     private Long parentId;
     private String content;

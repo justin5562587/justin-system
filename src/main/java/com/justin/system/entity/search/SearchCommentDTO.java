@@ -21,6 +21,6 @@ public class SearchCommentDTO {
     // 用于作为评论的parentId查找子级评论
     private Long parentId;
 
-    // 获取某种type下的评论
-    private String type;
+    private Long referId;
+    private String referType;
 }
